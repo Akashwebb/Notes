@@ -1,0 +1,119 @@
+Git is a DevOps tool used for source code management. 
+It is a free and open-source version control system used to handle small to very large projects efficiently.
+
+GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere. 
+
+
+git init (used to create a local repo)
+git status (used to chekc the status of the repo)
+git add file1.js file2.js folder1 folder2
+git add . (will add to staging area all the files & floders)
+git restore --staged file1.js file2.js folder1
+git commit -m "message" (savig the changes)
+
+git remote add (alias_name) (repo_url)
+git remote => used to check the remotes which are connected to local repo 
+git push -u (alias_name) (branch_name)
+
+
+git clone (repo_url)
+
+
+# Branching :(Used to take a copy of code and develop new features)
+
+git branch  => will list out all the branches also show the active branch
+git branch <branch_name> => creates a new branch from the current branch
+git checkout <branch_name> => used to change the active branch/ checkout onto another branch
+
+
+git checkout -b <branch_name> = git branch <branch_name> + git checkout <branch_name>
+Above commit is used as a shortcut for the creation and checkout together.
+
+
+# pull: (used to download the changes made on a branch usually can be done by other devs)
+
+# Example : 
+
+Assume 2 devs are there in a team and intially master branch has 3 commits named as 1, 2, 3
+
+when master was having three commits the first developer has taken a copy of master with the branch names being feat1
+
+
+therefore feat1  will also have the 3 commits (1, 2, 3) .
+
+
+now assume first developer has made a commit named as 'x' and his commit got merged into master 
+so now master will have 5 commits (1 , 2 , 3 , 'x' , "PR1")
+
+
+But when second developer wants to create a branch called feat2  within his computer 
+he will have only three commits of master (1, 2, 3) as both of them taken a copy from remote at a time 
+
+
+Now developer2 wants the changes made by first developer also(which are merged into master)
+
+
+so dev2 can download/pull the changed made in remote master using 
+`git pull` 
+
+
+now in dev2 computer's master will have all the 5 commits (1, 2, 3, 'x', 'PR1' )
+
+now if dev2 creates a new branch called feat2 from master then
+
+feat2 will have (1, 2, 3 , 'x', 'PR1' )
+
+---------------------------------------------------------------------------------------------------------
+
+- git init--> CREATE Repo using git bash cmd (No need if you created through github UI)
+- GIT Account setup using git config --global user.email "you@example.com" and git config --global user.name "Your Name" and git config --global user.password "your password"
+# DEVELOPER STEPS
+- GIT clone using git clone username@host:/path/to/repository.git
+- GIT command to know repo details git remote show origin
+- GIT Check out using git checkout -b <BRANCHNAME> to create new branch
+- GIT switch if branch already exist using git checkout <BRANCHNAME> to switch.
+- GIT STATUS to check uncommited changes and Branch Name using  git status
+- GIT commmand to check all available branch and shows current checked out branch using git branch
+- GIT commmand to check all available branch and shows current checked out branch and all remote origin branches using git branch -a
+- GIT commmand to update the branches/commits from remote to local using git fetch --all
+- GIT command to check the difference between current and previous version using git diff
+- GIT Staging using git add <FILENAME/FOLDERNAME> to stage the file
+- GIT Unstaging using git reset HEAD <filepath/folderpath>
+- Git Commit using  git commit -m <MESSAGE>
+-GIT RESET for Undo Commit
+--soft:-  option undo the last commit and preserve changes done to your files
+git reset --soft HEAD~1
+--hard:-  option undo the last commit and discard all changes in the working directory and index
+git reset --hard HEAD~1
+--mixed: option undo the last commit and keep changes in the working directory but NOT in the index
+git reset --mixed HEAD~1
+- GIT command to see all commit history using git reflog
+- GIT Command to delete branch locally using git branch -d localBranchName
+- GIT command to delete branch remotely git push origin --delete remoteBranchName
+- GIT command to Add a remote REPO using  git remote add origin username@host:/path/to/repository.git
+- GIT PULL from REMOTE REPO git pull origin master
+- git branch --set-upstream-to=origin/<MAIN BRANCH NAME> feature/header
+- GIT PUSH to REMOTE REPO using git push origin <LOCAL BRANCH NAME>
+-GIT create pull request like username@host:/path/to/repository/pull/<PULL REQUEST NUMBER>
+- GIVE Access to collaborator username@host:/path/to/repository/settings and click on collaborator then add name.
+- ONCE PR APPROVED run -git pull origin main to pull latest changes from ORIGN branch
+- GIT command to save your changes safely in local without commiting using stash git stash save "cool work" git stash list git stash apply stash@{stash_index}
+-GIT STASH is useful when you want to make changes to a file, but you don't want to commit those changes yet
+
+
+
+
+
+# git init
+# git remote add  <any_name>   <url_link>
+# git add .
+# git commit -m "message"
+# git push -u <any_name>  master
+
+
+# git branch 
+# git branch <branch_name>
+# git checkout <branch_name>
+
+
+# npm run build ( to build frontend clone)

@@ -1,0 +1,35 @@
+OOPS is Object-Oriented Programming.  It is an approach to developing software programming. 
+
+1. It was introduced to overcome flaws in the procedural approach to programmings such as 
+   Reusability and Maintainability and Security 
+Object-oriented programming or OOPS is a methodology of designing an application using classes and objects.
+
+2. The fundamental idea behind object-oriented language is to combine into a single unit with both data and functions.
+
+3. The data and functions that operate on that data such as a unit are called an object.
+
+-- A class is a blueprint from which objects are created. A class describes the state or behavior of an object.
+A class can have attributes and methods:
+
+-- An object is an instance of a class. It contains an address and takes up memory space. 
+Objects have states and behavior defined as per their template definition.
+
+-------------------------------------------------------------------------------------------------------------------
+
+# Procedural Oriented Programming  && 	Object-Oriented Programming
+
+** In procedural programming, the program is divided into small parts called functions and follow structure or procedure	
+   In object-oriented programming, the program is divided into small parts called objects.
+
+** Procedural programming follows a top-down approach.	
+   Object-oriented programming follows a bottom-up approach.
+
+** There is no access specifier in procedural programming.	
+   Object-oriented programming has access specifiers like private, public, protected, etc.
+
+** Adding new data and functions is not easy.	EX :- C, FORTRAN, Pascal, Basic, etc.
+   Adding new data and function is easy.        EX :- C++, Java, Python, C#, etc.
+
+----------------------------------------------------------------------------------------------------------
+
+

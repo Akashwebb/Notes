@@ -1,0 +1,92 @@
+QUEUE :: 
+
+1. A Queue is defined as a linear data structure that is open at both ends and
+    the operations are performed in First In First Out (FIFO) order.
+   All additions to the list are made at one end, AND all deletions from the list are made at the other end.  
+
+2. Queue can handle multiple data.    We can access both ends.    They are fast and flexible.    
+
+3. Like stacks, Queues can also be represented in an array: 
+
+   Queue:   the name of the array storing queue elements.
+   Front:   the index where the first element is stored in the array representing the queue.
+   Rear:    the index where the last element is stored in an array representing the queue.
+
+  
+  (dequeue) or remove(2)      2 <---    [3 , 4 , 5 , 6 , 7 , 8]      9 <---  (enqueue) or insert(9)
+                           items Removed from FRONT         items Added from BACK/REAR 
+
+
+4. Operations  	     Complexity
+   Enqueue(insertion) 	O(1)
+   Deque(deletion)   	O(1)
+   Front(Get front)   	O(1)
+   Rear(Get Rear)	    O(1)
+
+
+class Queue
+{
+    // Array is used to implement a Queue
+    constructor()
+    {
+        this.items = [];
+    }
+    isEmpty()
+    {
+        // return true if the queue is empty.
+        return this.items.length == 0;
+    }
+    enqueue(element)
+    {   
+        // adding element to the queue
+        this.items.push(element);
+        document.write(element + " enqueued to queue<br>");
+    }
+    dequeue()
+    {
+        // removing element from the queue
+        // returns underflow when called
+        // on empty queue
+        if(this.isEmpty())
+            return "Underflow<br>";
+        return this.items.shift();
+    }
+    front()
+    {
+        // returns the Front element of
+        // the queue without removing it.
+        if(this.isEmpty())
+            return "No elements in Queue<br>";
+        return this.items[0];
+    }
+    rear()
+    {
+        // returns the Rear element of
+        // the queue without removing it.
+        if(this.isEmpty())
+            return "No elements in Queue<br>";
+        return this.items[this.items.length-1];
+    }
+}
+ 
+// creating object for queue class
+var queue = new Queue();
+ 
+// Adding elements to the queue
+queue.enqueue(10);
+queue.enqueue(20);
+queue.enqueue(30);
+queue.enqueue(40);
+ 
+// queue contains [10, 20, 30, 40]
+// removes 10
+document.write(queue.dequeue() + " dequeued from queue<br>");
+ 
+// queue contains [20, 30, 40]
+// Front is now 20
+document.write("Front item is " + queue.front() + "<br>");
+ 
+// printing the rear element
+// Rear is 40
+document.write("Rear item is " + queue.rear() + "<br>");
+    

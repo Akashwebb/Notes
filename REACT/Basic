@@ -1,0 +1,362 @@
+React is a JavaScript library for building user interfaces , created by Facebook.
+React is used to build single-page applications. AND React creates a VIRTUAL DOM in memory.
+React is a ~modular programming library~ *i.e* we create file for each part of each things which makes it REUSEABLE
+
+React,Angular,Vue are all single page application *i.e* the all file will use single html file only
+Current version of React.JS is V18.0.0 (April 2022).
+Current version of create-react-app is v5.0.1 (April 2022).
+
+@FRAMEWORK is something which drive us *i.e* we have to follow their set of points or flow EG:Angular (Google)
+@LIBRARY is something which is driven by us *i.e* we are independent to choose or choose flow EG:React (Facebook)
+
+# Why React ??
+1. Scalibility  (we can expand and its dynamic)
+2. Community support  (use by more companies)
+3. Learning curves  (Easy to learn)
+
+# Two ways to create React Application:
+1. Create React App
+2. Webpack
+
+PACKAGE is a collection of different modules
+# NPM is *node package manager*  : tool that is use to install the packages
+use to store packages which are created for JS application . Its a public server 
+@ packages use by npm are installed globally
+  -- npm install <package_name> // we first install the package to use 
+  -- import react "react"     // imported react name package
+
+# NPX is *node package executer*  :: tool that is use to execute packages
+use to directly use the package from npm server , NO NEED to install or import
+@ packages use by npx are not installed globally
+  -- npx create-react-app <file_name>
+  -- npm install ( to install create-react-app )
+  -- npm start ( to run react file)
+  -- npm uninstall -g create-react-app  ( to uninstall the package so that it always uses latest version)
+
+  # npx create-react-app <file_name>  *will create 7 files*
+  create-react-app includes built tools such as webpack, *Babel*, and ESLint.
+  BABEL :: It convert latest version of JS code to one that browswe understand
+  1. node_modules
+  2. public --  contain all things which are static and do not need to be changed like html,photos
+  3. src  --   main file contain all components and index.js
+  4. .gitignore
+  5. package-lock.json
+  6. package.json  --  contain application configuration like name,version etc
+  7. README.md
+
+# Two frameworks in real world :
+1. MVC - model view controller  ( used by Angular )  
+2. View framework ( used by React ) inside it , React uses JSX *i.e* combination of HTML + JS
+@Any function which return JSX is called component. it have extension of .jsx
+
+# Items folder inside src
+*items.jsx* is a component and TO ADD MORE INFORMATION , we can pass it as properties 
+we write properties as key:value pair 
+To use property we create parameter name (props) , and under parameter name we use all properties 
+
+# In app.js  if we want more <div> </div> inside RETURN ,  we put all <div> inside <> </>
+Check in  app.js   and   Items_home.jsx   files
+
+# JSX is *JavaScript XML*  
+JSX makes it easier to write and add HTML in React.
+JSX converts HTML tags into react elements.
+With JSX you can write expressions inside curly braces { }. 
+Everything inside curly braces are treated as variable
+
+# JSX allows us to write HTML directly within the JavaScript code without any createElement(),appendChild() methods.
+<!-- $ const myElement = (
+  <div>
+    <h2>I am a paragraph.</h2>
+    <p>I use braces {5 + 5} for expression </p>
+  </div>
+);
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(myElement); -->
+
+# we use parameter (props) to add more properties for any function
+Component Communication can be done from parent to child  OR child to parent
+For parent to child , we use @props
+
+In html , onclick except function call  i.e  onclick="func()"
+1. In React , onClick except function reference(function-name)  i.e onClick={"func"}     //  no parameter we can put
+2. To pass a parameter here , we need to create empty function  i.e  onClick={()=>func()}    //
+
+# State is a special variable in react  AND  it refreshes your page   OR   Re-render your component
+# Re-render means it will  RETURN  the content or function with the updated value 
+
+We will be using useState hook to create state in react 
+# Syntax ::  const [value , function_to_update_that_value] = useState(initial value)
+so useState return updated value and function that update that value
+useState is a asynchronous 
+-------------------------------------------------------------------------------------------------
+
+# Side-effect is a communication with server i.e getting data from server or sending data to server. 
+Side effects are not predictable because they are actions which are performed with the "outside world."
+ 
+*** Think about if we were to request data (like blog posts) from a server that has failed and instead of our post   data, gives us a 500 status code response which is previous data
+
+Side effects should be separated from the rendering process. If we need to perform a side effect, it should strictly be done after our component renders.
+
+This is what useEffect gives us.
+
+# *useEffect ()* :: is a tool that lets us interact with the outside world but not affect the rendering or performance of the component that it's in.  [  *IT LIMIT OUR API CALLS*  ]
+SYNTAX :: TWO PARAMETER  ::  useEffect(()=>{callback} , array of dependency)
+
+Array dependency is like it is invoke each time the value of data changes 
+to convert object into array -- we use Object.values(object.data)   or   use for..in loop
+
+Common side effects include:
+1. Making a request to an API for data from a backend server
+2. To interact with browser APIs (that is, to use document or window directly)
+3. Using unpredictable timing functions like setTimeout or setInterval
+
+--------------------------------------------------------------------------------------------------------------
+
+# REDUX is globale state manager tools
+two way to create GLOBALE DATA OR GLOBAL STATE ::
+1. useReducer hook
+2. context API
+
+# *useReducer()* ::  The useReducer Hook is similar to the useState Hook.
+SYNTAX :: two parameter ::  FUNCTION that update value  AND   the INITIAL VALUE 
+RETURN :: the current state and a dispatch method.  *(Returns : value  AND   function to update that value)*
+
+If you find yourself keeping track of multiple pieces of state that rely on complex logic, useReducer may be useful.       useReducer(<reducer>, <initialState>)
+
+# useContext() :: Process of creating and manageing global variable or data
+Props drilling is a process when parent component send global data to many child component,it is difficult
+So whenever we use GLOBAL DATA to be transmitted in MANY CHILD component , we use context
+React Context is a way to manage state globally.
+
+1. createContext() ::  React create a global variable or global context for us  
+                       And it have Provider (special component that have global configuration ) and Consumer
+
+1st component have x=createContext() function that have provider and consumer
+2nd component have <x.provider value={{aa:xx}}>  and wrapp all child component inside it </x.provider>  
+3rd component i.e child component have (*const y = useContext( x )* ) which takes value of 2nd comp
+4th 
+
+------------------------------------------------------------------------------------------------------------
+
+# *useRef()* ::  It can be used to access a DOM element directly.
+CONTROLLED  component   i.e  useState *where DOM is updated using state
+UNCONTROLLED  component i.e  useRef *where we update a DOM directly
+
+It have a attribute <div ref:{anyName} >  *ref*  created using hook useRef
+and initially set ref as NULL   :: const anyName = useRef = "" 
+useRef() only returns one item. It returns an Object called current.  
+USAGES :
+1. use as STATE when we DON"T want real time update
+2. to get value of dom  ::        const anyName = useRef = ""    *(anyName.current) give u value   onChange*
+
+When we work with React ,it create two Dom ::
+1. virtual dom : programetic created dom  *whatever we are writing under React , we write in virtual Dom* 
+2. Actual dom :  which we see under  *inspect*
+# Diffing Algorithm  ::  compare virtual and actual dom  and update the value in actual dom
+Rather then re-rendering whole in Actual Dom ,  it re-render only those which are change in value Virtual dom by useState
+It use unique KEY in mapping so that Two Tag with same Value,so that change in one Tag value dont effect other
+
+--------------------------------------------------------------------------------------------------------------
+# Optimization ::
+
+# *useMemo()*  :: The React useMemo Hook returns a memoized value.
+Syntax :: useMemo(()=>{},[])    --- ( SAME AS USE-EFFECT())
+The useMemo Hook only runs when one of its dependencies update. This can improve performance.
+We can wrap the expensive function call with useMemo.
+The useMemoHook accepts a second parameter to declare dependencies. The expensive function will only run when its dependencies have changed.
+
+@@ When we import child component in parent component , and if we make any change in INPUT field( eg : TODO) of parent component it RE-RENDER child component also ...
+To optimize it  :::  
+** export default React.memo(child_function)   <inside child component>
+
+# useEffect() have a various other component like *cleanUp function* which makes applicataion more slow ,
+Local storage cleanup , DB cleanup etc.
+Till version 17 of React , we use useEffect() only ,   but in version 18 we have *useMemo* 
+so We take *useMemo*  to optimize variable and function
+
+# *useCallBack()*  :: It return memoized function.
+
+------------------------------------------------------------------------------------------------------------
+
+# React Router  :: Not a part of React and   *It have a external dependency*
+-- npm install react-router-dom 
+-- import {BrowseRouter,Routes,Route} from "reacr-router-dom"
+
+1. we don't use anchor tag  <a> </a> for navigation in React  
+   Because anchor tag Refresh a page every time *i.e* Refresh the entire Application which will make it slow
+2. So React Router was introduce to overcome this problem . It consist of  ::
+    
+    1. Browser Router :: Its a component provide by react-router-dom which holds the information related to 
+                         *Window location configuration*   (type window.location on inspect-console)
+    
+    2. Routes :: As we have multiple route , Routes act as wrapper for all user-define route
+    
+    3. Route ::  It is use to create user-define route as much we want. It have 2 properties
+          ---  path =    "any_name_of_the_path"                                  *(expect address)*
+          ---  element = { what_jsx_we_want_to_load_at_that_particular_path }     *(expect component file)*
+    
+    # At Home Page i.e localhost:3000  (to make 1st loaded page)
+    <link to="/path"/> is like anchor tag only BUT ** IT PREVENT RE-LOADING OF PAGE
+    Outlet  :: It is use in Parent component,and  allow you to have nested route
+
+
+
+
+
+
+# AUTH :: 
+1. Registration : Whenever we register to website , it Transfer the data to Server database
+2. Login : when we try to login ,  it send Request to server And SERVER check if user is present or not in DB
+           If present : it return token called  JWT (JSON WEB TOKEN)   else  error
+
+When we work on web , we have two things  ::
+1. Authentication :: check VALIDITY  ( are username and password is correct)
+2. Authorisation ::  check SCOPE/ROLE ( is user a Admin , or just Reader , or Access)
+                     this is decided by JWT as per token receive and get store as BROWSWE COOKIES
+
+Server has a secret key and along with payload(data we are passing ) will generate a TOKEN which is consist of random character and number 
+JWT comprise of 3 things ::
+1. HEADER   :: Algorithm we are using  and  TOKEN TYPE (jwt)
+2. PAYLOAD   ::  the data we are passing
+3. SECRET KEY  ::                      
+
+lazy loading :: load content or data only if its needed  eg :: instagram load below data when we scroll
+In app.js  :: const lazyExample= React.lazy(()=>{
+  import(./pageName)
+})
+And  pageName wrap under <suspense> pageName </suspense>
+
+--------------------------------------------------------------------------------------------------------------
+
+# Custom hook ::  We can create our own hook to reduce duplicate codes AND  *for code reusability*
+1. In built hook cannot be a part of function , we cannot use it inside any function
+2. we use axios to make api call , what if we need to do 100 api call ?  
+3. In this case we can create custom hook i.e 
+useEffect inside Global Function inside another component--- that re-render only when url change
+
+# export function useFetch(url){          // hooks are done named export NOT default export
+  const [data,setdata]=useState(null)     //   useState to get *UPDATED VALUE* everytime
+$   useEffect(()=>{
+   fetch(url).then((res)=>{
+      return res.json()
+    }).then((data)=>{
+       setdata(data)
+    })
+  },[url])
+  return data;          // return null initially --  so we used  useState to get updated value everytime
+}$
+
+now we can use it directly by importing it inside any component
+# const data = useFetch( " https.//any_link " )
+  console.log(data)
+# const data2 = useFetch ( " https.// another_link " )  
+  console.log(data2)
+
+
+
+
+
+-------------------------------------------------------------------------------------------------------------
+1. A React component undergoes three phases in its lifecycle::  mounting, updating, and unmounting. 
+   INITILIZATION : This is the stage where the component is constructed with the given Props and default state. 
+   MOUNTING : Mounting is the stage of rendering the JSX returned by the render method itself.
+   UPDATING : Updating is the stage when the state of a component is updated and the application is repainted.
+   UNMOUNTING: As the name suggests Unmounting is the final step of the component lifecycle where the component is removed from the page.
+
+2. Hooks are only use in function component , not in class component 
+    Functional component are much easier to read and test because they are plain JavaScript functions without state or lifecycle-hooks. 
+    You end up with less code.  
+
+3. DIFFERENCE BETWEEN   functional component    and   class component
+   
+3.1) Constructors are not used.	
+      Constructor are used as it needs to store state. 
+
+3.2) Functional component run from top to bottom and once the function is returned it cant be kept alive.	
+      Class component is instantiated and different life cycle method is kept alive and being run and invoked depending on phase of class component.
+
+4. <React.StrictMode> <App/>  </React.StrictMode>    
+    it is use for prevanting bad coding practice  (do not use for finding error)
+    "use strict"
+    let x=10
+    console.log(x)    // shows warning of bad practice as global variable declaration
+
+// demonstrating a Class component
+class Counter extends React.Component {
+     constructor(props) {
+       super(props);
+       this.state = { count: 0 };
+     }
+    
+     componentDidMount() {
+       this.setState({ count: this.state.count + 1 });
+     }
+    
+    handleIncrement = () => {
+       this.setState({ count: this.state.count + 1 });
+     };
+    
+    handleDecrement = () => {
+       this.setState({ count: this.state.count - 1 });
+    };
+
+     render() {
+       return (
+         <div className="counter">
+           <h1 className="count">{this.state.count}</h1>
+    
+           <button type="button" onClick={this.handleIncrement}>
+             Increment
+           </button>
+           <button type="button" onClick={this.handleDecrement}>
+             Decrement
+           </button>
+         </div>
+       );
+     }
+}
+
+export default Counter;
+React
+In our component example above, we set the initial state with the constructor and use the lifecycle method componentDidMount() to set the state from 0 to 1 when the component is mounted, since we don’t want the count to start at 0
+ -------------------------------------------------------------------------------------------------------------
+
+# REDUX : It allows React components to read data from a Redux Store, and dispatch Actions to the Store to update   data.      { npm i @Reduxjs/toolkit  react-redux }
+
+$ 4 things are present in redux ::
+
+1. store - that contain all global variables 
+2. dispatch  -
+3. action -
+4. reducer -  Responsible to add or Update the state
+
+1. Create Store 
+(  import {configurestore } from @reduxjs/toolkit )
+export const store = configurestore({ data   })
+
+
+2. Add Provider  and  Pass store to provider
+import provider from react-redux
+<provider store={store}> components <provider>
+
+
+3. Create Reducer which keep track of multiple states 
+
+
+(https://www.tutorialspoint.com/reactjs/images/redux_store.jpg)
+
+                  State
+      contain /^          \ define
+             /             \ 
+         Store              UI
+    update ^\              /  trigger
+              \            /
+            Reducer  <- Actions
+                    sent to
+
+---------------------------------------------------------------------------------------------------------------
+command for json server to extract data :: 
+
+json-server --watch db.json --port 3004
+
+npm install -g json-server

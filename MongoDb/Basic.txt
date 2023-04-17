@@ -1,0 +1,98 @@
+* BASIC RULE OR PROTOCOL API FOLLOW*
+
+#SOAP (Simple object access protocol)  API protocol uses extensible markup language (XML) to power API communications. 
+1. It have a fixed set of protocol to follow  and so it ws very secure
+2. main disadvantage :  It use XML format to transfer data -- which is very difficult to understand
+
+#REST (Representational state transfer) protocols are more flexible than SOAP. This is primarily achieved by removing the dependency on XML; 
+1. REST prominently transmits data in JSON , string , xml
+2. not secure , we have to deploy our own security
+3. It should be stateless i.e  DO NOT KEEP TRACK OF CLIENT  i.e server donno what was last request
+4. RULES  :: Accept and send data in json , use prular-noun at endpoint ,  use nesting chain to connect all page
+
+#Graph QL ()
+
+1. npm init 
+2. npm i express   
+3. npm i nodemon
+4. npm i mongoose
+5. npm i body-parser
+6. npm i express-validator ( https://express-validator.github.io/docs/ )
+7. npm i bcrypt  ( for hashing your password)
+
+
+
+# MONGOOSE  CONNECTION  ::
+First, we need to define a connection. 
+1. If your app uses only one database, you should use mongoose.connect. 
+2. If you need to create additional connections, use mongoose.createConnection.
+3. Both connect and createConnection take a mongodb:// URI, or the parameters host, database, port, options.
+
+await mongoose.connect('mongodb://127.0.0.1/my_database');
+
+
+* ** const MyModel = mongoose.model('ModelName', mySchema);
+The first argument is the singular name of the collection your model is for. 
+Mongoose automatically looks for the plural version of your model name. For example, if you use
+
+* const MyModel = mongoose.model('Ticket', mySchema);
+Then MyModel will use the tickets collection, not the ticket collection. For more details read the model docs.
+
+------------------------------------------------------------------------------------------------------------
+
+# VALIDATION OF DATA BEFORE HITTING TO DB  :: 
+
+1.  we validate using mongoose 
+2.  we validate using  express-validator  
+
+* npm install --save express-validator
+express-validator is a set of express.js middlewares that wraps validator.js validator and sanitizer functions.
+
+* const { body, validationResult } = require('express-validator');   
+    import express-validator and then write Schema to validate 
+    IF USER WITH SAME *EMAIL* IS PRESENT  
+    if present (erroe)  else  (create-data)  
+
+--------------------------------------------------------------------------------------------------------------
+
+# Store Password after Hassing :: 
+
+* npm i bcrypt
+
+saltRounds ::  how many round of hassing you want to do  
+            (10 means 10 no.of Random character will be added  and  10 time hassing will be done)
+
+1. bcrypt.hash(myPlaintextPassword, saltRounds, function(err, hash) {
+    // Store hash in your password DB.
+  });
+
+
+2. bcrypt.compare(myPlaintextPassword, hash, function(err, result) {
+    // result == true
+ });
+
+---------------------------------------------------------------------------------------------------------
+
+# JWT -  json web token
+ npm i jsonwebtoken
+
+it consist of 3 fields 
+1. red -  header consist of algorithm and type
+2. pink - payload or data that we password
+3. blue - signature or additional signature we can add
+
+-------------------------------------------------------------------------------------------------------------
+
+# TO post anything , user must be authenticate that he is a valid user Which is done by validating the JWT
+
+Middleware functions are functions that have access to the request object (req), the response object (res), and 
+The next function in the application’s request-response cycle. 
+The next function is a function in the Express router which, when invoked, 
+executes the middleware succeeding the current middleware.
+
+  Middleware functions can perform the following tasks:
+  
+  Execute any code.
+  Make changes to the request and the response objects.
+  End the request-response cycle.
+  Call the next middleware in the stack.

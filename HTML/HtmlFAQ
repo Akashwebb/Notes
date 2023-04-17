@@ -1,0 +1,258 @@
+% 1. Difference between link and anchor tag ?
+=> The anchor tag <a> is used to create a hyperlink to another webpage or to a certain part of the webpage and 
+   these links are clickable,
+   whereas, link tag <link> defines a link between a document and an external resource and these are not clickable.
+
+% 2. When to add script tag in head and When to do it in body?
+=> Scripts in the head section: Scripts to be executed when they are called, or when an event is triggered, go in the head section. ...
+   Scripts in the body section: Scripts to be executed when the page loads go in the body section.
+
+% 3. Explain Doctype in HTML?
+=> HTML documents must start with a <!DOCTYPE> declaration. The declaration is not an HTML tag.
+   It is an "information" to the browser about what document type to expect.
+
+% 4. Difference between grid and flex?
+=> flexbox was designed for layout in one dimension - either a row or a column. 
+   Grid was designed for two-dimensional layout - rows, and columns at the same time.
+
+% 5. What is HTML?
+=> HTML stands for Hyper Text Markup Language . HTML is the standard markup language for creating Web pages
+   HTML describes the structure of a Web page . HTML consists of a series of elements
+
+% 6. Html Tags : 
+=> HTML tags are used to hold the HTML element.	
+   HTML tag starts with < and ends with >              ex:  <b> </b>
+
+% 7. Html Element ::    
+=> HTML element holds the content.		
+   Whatever written within a HTML tag are HTML elements.          <p> i am element </p>
+
+% 8. Html Attributes : 
+=> HTML attributes are used to describe the characteristic of an HTML element in detail.
+	 HTML attributes are found only in the starting tag.          <img src="www.kk"/>
+
+
+
+% 9. What are Lists in HTML?
+=> Ordered List or Numbered List (ol)       : all the list items are marked with numbers by default.  ( <ol start="5">  </ol>)
+  Unordered List or Bulleted List (ul)      : all the list items are marked with bullets
+   Description List or Definition List (dl) : <dl> tag defines the start of the list.
+                                              <dt> tag defines a term.
+                                              <dd> tag defines the term definition (description).
+
+
+% 10. Define HTML Layout.
+% 11. What are Forms in HTML?
+=>   An HTML form is used to collect user input. The user input is most often sent to a server for processing. 
+     <form action=""  method="" >  <label> <input> <select>  </form>
+
+
+
+% 13. What is Semantic HTML?
+==> Semantic HTML tags are tags that define the meaning of the content they contain. 
+    For example, tags like <header>,<aside> , <article>, and <footer> are semantic HTML tags
+
+    A semantic element clearly describes its meaning to both the browser and the developer.
+    Examples of non-semantic elements: <div> and <span> - Tells nothing about its content.
+    Examples of semantic elements: <form>, <table>, and <article> - Clearly defines its content.
+
+% 14. What is an Image Map?
+=>    An image map is an image with clickable areas. The areas are defined with one or more <area> tags.
+      The idea behind an image map is that you should be able to perform different actions depending on 
+      where in the image you click.
+
+      <img src="workplace.jpg" alt="Workplace" usemap="#workmap">
+      <map name="workmap">
+           <area shape="rect" coords="34,44,270,350" alt="Computer" href="computer.htm">
+           <area shape="rect" coords="290,172,333,250" alt="Phone" href="phone.htm">
+           <area shape="circle" coords="337,300,44" alt="Coffee" href="coffee.htm">
+     </map>
+
+% 15. Why is the Embed Tag Used in HTML?
+=>  The <embed> tag defines a container for an external resource, such as a web page, a picture, 
+     a media player, or a plug-in application.
+     <embed   type="image/jpg"   src="pic_trulli.jpg"   width="300" height="200">
+     
+     *Suggestion :::
+     To display Picture, it is better to use the   <img> tag.
+     To display HTML, it is better to use the      <iframe> tag.
+     To display Video or Audio, it is better to use the    <video> and    <audio> tags.
+
+% 16. What is a Marquee Tag in HTML? 
+=> It is implemented for creating scrollable text or images within a web page from either left to right or
+   vice versa, or top to bottom or vice versa. 
+   But this tag has been deprecated in the new version of HTML, i.e., HTML 5.
+
+   <marquee width="60%" direction="up" height="100px">
+          This is a sample scrolling text that has scrolls in the upper direction.
+   </marquee>
+
+
+% 17. what is iframe ?
+=> Inline Frame is used to display a web page within a web page.
+   <iframe src="https://www.w3schools.com" title="W3Schools Free Online Web Tutorials"/>
+   This will bring the whole webpage of that website into your web page
+
+
+% 18. What is the difference between Display:none and visibility:hidden?
+=> visibility:hidden hides the element, but it still takes up space in the layout. 
+   display:none removes the element from the document. It does not take up any space.
+
+% 19. Position properties
+=> Relative - the element is positioned relative to its normal position. 
+   Absolute - the element is positioned absolutely to its first positioned parent. 
+   Fixed - the element is positioned related to the browser window.
+  
+   the main difference between absolute and relative positioning is that 
+   Absolute positioning takes an element out of the document flow, while 
+   Relative positioning keeps an element within the document flow but adjusts its position.
+
+% 20. Features of HTML5 
+=>  1. Semantic element 
+    2. Video and audio tag  (embed tag was used before)
+    3. Canvas: Canvas element, which allows for dynamic and interactive graphics on the web
+    HTML APIs  :: 
+    4. Geolocation: HTML5 introduces new APIs for accessing the user's location information
+    5. Drag and Drop: HTML5 introduces new APIs for implementing drag-and-drop functionality in a web page
+    6. Web Storage : Web applications can store data locally within the user's browser in local storage
+    7. Web Worker : It is a JavaScript running in the background, without affecting the performance of the page.
+    
+
+%21.  CSS Box Model :
+=>  1. Content  
+    2. Padding
+    3. Border 
+    4. Margin
+
+%22.  What are formatting tags?
+=>  It define the appearance and layout of text and other content on a web page. 
+    These tags allow you to specify how text should be displayed, including font size, font style, text color, and more. 
+      <p>:       The paragraph tag, used to define a paragraph of text.
+      <strong>:  The strong tag, used to make text bold.
+      <em>:   The emphasis tag, used to italicize text.
+      <u>:    The underline tag, used to underline text.
+      <br>:   The line break tag, used to insert a line break in the text.
+      <font>: The font tag, used to specify font size, color, and face.
+    
+
+    --------------------------------------------------------------------------------------------------------------
+# Display: Block  have both width and height
+# Display: Inline  have no width and height
+
+# Flexbox is a one-dimensional layout method for arranging items in rows or columns.
+Display: Flex
+
+Container properties :: 
+1. flex-direction : row , columns ;
+2. flex-wrap : wrap;  
+3. justify-content : space-around , space-between ,  center 
+4. align-item : flex-start (items at --- column wise at top), flex-end  ( it arrange items in column wise at bottom)
+5. align-content : space-between;
+6. gap : 10px;
+
+Item properties ::
+1. order 
+2. flex grow
+3. flex shrink
+
+-------------------------------------------------------------------------------------------------------------
+
+#Grid
+Container properties ::
+1. display : Grid
+2. grid-template-columns: 80px 200px auto 40px;
+3. justify-content : space-around 
+4. column-gap : Specifies the gap between the columns
+5. gap : A shorthand property for the row-gap and the column-gap properties
+
+Item properties ::
+1. grid-row : 1/2  (size of each box in row)
+2. grid-column : 1/3 (size of each box in column)
+
+# Grid and flexbox. The basic difference between CSS Grid Layout and CSS Flexbox Layout is that 
+flexbox was designed for layout in one dimension - either a row or a column.
+Grid was designed for two-dimensional layout - rows, and columns at the same time.
+
+----------------------------------------------------------------------------------------------------------------
+
+# Transform :: CSS transforms allow you to move, rotate, scale, and skew elements and give ANIMATION effect
+1. transform : translate(50px,100px)
+  -- it changes position of element (x-axis, y-axis)  as parameter
+  -- translate3d(x,y,z)	      Defines a 3D translation
+
+2. transform : rotate(30deg)
+  -- it rotate clockwise (+30 deg)  and  anti-clockwise (-30deg)
+  -- rotate3d(x,y,z,angle)	  Defines a 3D rotation
+
+3. transform : scale(2)
+  -- it change size of an item (scaleX)- change in x-axis   or   (scaleY) - change in y-axis 
+  -- scale3d(x,y,z)	          Defines a 3D scale transformation 
+
+4. transform : skew(30 deg)
+5. transform : matrix  
+
+-------------------------------------------------------------------------------------------------------------------
+
+# Transition :: make animation or motion time bounder and its smooth (gives real life effect)
+  To create a transition effect, you must specify two things:
+  --- the CSS property you want to add an effect to
+  --- the duration of the effect
+
+1. transition : width 2s ;     ( css propery and duration )
+2. transition-delay : 3s ;     ( transition effect will start after 3sec )
+3. transition-duration : 3s ;  (duration of this effect)
+  -- The animation-duration property defines how long an animation should take to complete
+
+------------------------------------------------------------------------------------------------------------------
+
+# Animation ::  An animation lets an element gradually change from one style to another.
+           To use CSS animation, you must first specify some keyframes for the animation.
+           Keyframes hold what styles the element will have at certain times.
+
+When you specify CSS styles inside the @keyframes rule, 
+the animation will gradually change from the current style to the new style at certain times.
+
+1st way  ::
+@keyframes any_name{
+  from { css property to change from; }
+  to   { present css to new css property;}
+}
+
+2nd way :: 
+@keyframes any_name{
+  0%   {css properties}
+  50%  {css properties}
+  100% {css properties}
+}
+
+#item1 {
+  add css property as you want
+ 1. animation-name  :: name you gave after @keyframes
+ 2. animation-duration :: how long an animation should take to complete
+ 3. animation-delay  :: after how many sec , animation should start (-ve value makes animation already in start mode)
+ 4. animation-iteration-count :: says how many time iteration should be done   (infinity makes animation forever)
+ 5. animation-direction :: normal , reverse , alternate (The animation is played forwards first, then backwards)
+}
+
+------------------------------------------------------------------------------------------------------------------
+
+# The @media rule is used in media queries to apply different styles for different media types/devices.
+
+Media queries can be used to check many things, such as:
+
+1. width and height of the viewport
+2. width and height of the device
+3. orientation (is the tablet/phone in landscape or portrait mode?)
+4. resolution
+
+Generally, this dimension is recommended for mobile:
+
+MOBILE  ::  @media only screen  { 
+            and (min-device-width : 360px)   
+            and (max-device-width : 640px)
+            }
+
+LAPTOP  ::  @media (min-width: 900px) {
+            margin:0px;
+            padding:0px;
+            }

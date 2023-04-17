@@ -1,0 +1,41 @@
+# Cloud Computing ::
+The term cloud refers to a network or the internet. It is a technology that uses remote servers on the internet to store, manage, and access data online rather than local drives. The data can be anything such as files, images, documents, audio, video, and more.
+
+LIKE : 
+1. If there is 1000 employee , so each employee need hardware and software and if new employee comes , again new hardware and software need to give ,its hectic
+2. So, instead of installing a suite of software for each computer, you just need to load one application. That application will allow the employees to log-in into a Web-based service which hosts all the programs for the user that is required for his/her job.
+
+# Types::
+1. public cloud
+2. private cloud
+3. hybrid cloud
+4. community cloud
+
+# Cloud as service  ::
+
+1. Infrastructure as a service.	                           
+IAAS is used by network architects.	     	             
+IAAS gives access to the resources like virtual machines and virtual storage.
+
+2. Platform as a service.
+PAAS is used by developers.	 
+PAAS gives access to run time environment to deployment and development tools for application.	
+Example: Google App Engine, Force.com, Joyent, Azure.
+
+3. Software as a service.
+SAAS is used by the end user. 
+SAAS is a software distribution model in which services are hosted by a cloud service provider.
+Example: Slack, Samepage, Box, and Zoho Forms.
+
+
+# Providers :: 
+
+1. Amazon Web Services (AWS) is an Amazon company that was launched in the year 2002. 
+Some of Services are ::  Virtual Private Cloud, EC2, AWS Data Transfer, Simple Storage Service, DynamoDB, Relational Database Service,
+
+2. Microsoft Azure offers hundreds of services within various categories, including AI + Machine Learning, Databases, Internet of Things, Management, Media, Mobile, Networking, Security, Storage, Web, 
+and    Windows Virtual Desktop.   
+
+3. IBM Cloud, developed by IBM, is a set of cloud computing services for businesses. Like other cloud service providers, the IBM cloud includes IaaS, SaaS, and PaaS services via public, private, and hybrid cloud models.
+
+4. Google cloud platform is Google's Cloud. Like AWS and Azure, Google Cloud offers similar services in various categories, including computing, storage, identity, security, database, AI and machine learning, virtualization, DevOps, and more.

@@ -1,0 +1,120 @@
+Database is a process of keeping data in organised manner
+DBMS : database management system is a software that can store millions of data
+Two Types ::
+1. Relational DBMS :: (SQL: structure query language)  Ex:: Oracle, MySQL, DB2
+2. Non-Relational DBMS :: (NoSQL)  Ex : MongoDB( data in Document ) , DynamoDB (data in key-value) , 
+
+# MongoDB is a document database. It stores data in a type of JSON format called BSON.
+ A record in MongoDB is a document, which is a data structure composed of key value pairs 
+ similar to the structure of JSON objects.
+
+1. Mongo db is non-relation db
+2. Mongo db is flexible not rigid
+3. Table called as Collection , row as document  and  column as field
+4. It do not have pre-define structure for upcoming data or No need to maintain any structure
+DrawBacks ::
+1. It limits the document size to no more than 16MB.
+2. It have no Rollback or undo things
+
+COMMANDS ::
+
+1. use blog --> create a database and redirect the curser to that db
+2. show dbs --> shows all database present
+3. db.createCollection("employee")  --> create employee table
+
+4. INSERT ::
+        db.employee.insertOne({})  OR  db.employee.insertMany([{}]) 
+        -- we use array of object to insert many data 
+
+5. FIND ::
+        db.employee.find({},{})  :: To select data from a collection in MongoDB, we can use the find() method.
+        -- It have two parameter OBJECTS  ::
+       1. Query or Filter data 
+       2. Projection :: This parameter is an object that describes which fields to include in the results. 
+                        -- 1 means display ,  0 means not to display
+        * *db.employee.find({salary:{$gt:50000}}).pretty()*   
+        
+6. UPDATE ::
+        db.employee.update( { } , { $set { } } ) ::   updateOne()  or  updateAll()
+       
+       * *db.employee.update({salary:{$gt:85000}}, {$set:{salary:11111}})* 
+       * *db.employee.updateMany({}, { $inc: { likes: 1 } })*     // inc will increment by 1
+        
+        -- It have two parameter OBJECTS  ::
+        1. Query or filter data
+        2. {$set{ }} to SET a new value
+            -- ** without $set{} , it will update the previous document with a given  new documnet 
+            
+            previous data in document ::  {name:"akash",age:23}
+            * *db.employee.update ({name:"akash"} , {company:"akash",mark:33})* 
+            present data in document  ::  company:"akash",mark:33
+
+7. DELETE :: 
+        db.employee.delete({condition}) ::   deleteOne()  and deleteMany()
+
+8. SORT ::
+       * *db.employee.find.sort({salary: -1})*  -->  sort salary in decending order
+       * *db.employee.find.sort({salary: 1})*   -->  sort salary in acending order
+       * *db.employee.find.sort({salary: 1},{name: 1})*  -->  If salary is Same , sorting done on base of name
+
+9. LIMIT ::
+       * *db.employee.find().limit(2)*  -->   display only 2 employee details at a time
+
+10. SKIP ::
+       * *db.employee.find().skip(2)*  -->   skip top 2 documents and  Display 3rd document details
+
+11. DROP :: 
+       * *db.employee.drop()*  -->  drop or delete the whole collection/table
+       * *db.dropDatabase*  -->  delete the current database 
+
+12. EXISTS ::
+       * *db.employee.find({salary : {$exists : true}}) -->  give all document where salary field is present      
+
+COMPARISON OPERATORS ::  
+* $eq:   Values are equal
+* $ne:   Values are not equal
+* $gt:   Value is greater than another value
+* $gte:  Value is greater than or equal to another value
+* $lt:   Value is less than another value
+* $lte:  Value is less than or equal to another value
+* $in:   Value is matched within an array    
+
+    *db.employee.find({salary:{$eq:11111}}).pretty()*           
+
+LOGICAL OPRATORS :: 
+* $and:  Returns documents where both queries match
+* $or:   Returns documents where either query matches
+* $nor:  Returns documents where both queries fail to match
+* $not:  Returns documents where the query does not match
+
+    *db.employee.find( {$and:[  {salary:{$gt:50000}} , {salary: { $lt:60000 }}  ]} )*
+
+-----------------------------------------------------------------------------------------------------------------
+
+# CONNECT WITH NODEJS ::
+1. npm init  :: to create package.json 
+2. Inside app.js ,  import *MongoClient*  class  that allow you to make connection with mongoDb
+3. Connection URL :: to set Protocol and LocalHost   and  creating Instance of MongoClient
+4. Promise : *.connect()*  with instance of MongoClient
+5. instance of MongoClient.db(name_of_DB) 
+6. Create as many collection as db.collection("table_name")
+
+** mongodb do NO VALIDATION ,  any user can store age:"hssk" and it will  take no validation 
+
+# ODM :: object document mapping   example -- mongoose
+   * mongoose is use for validation or some layer to create schema
+
+1. npm i mongoose 
+2. promise :: *mongoose.connect()*  to connect with mongoose
+
+
+// salary between 50000 and 60000
+// const data = await collection.find( {$and:[  {salary:{$gt:50000}} , {salary:{$lt:60000}}  ]} )
+
+// 2nd heighest salary
+// const data=await collection.find({}).sort({salary:-1}).skip(1).limit(1)
+
+db.employee.find({salary:{$gt:50000}})
+db.employee.update({salary})
+
+d.employee.find({$and :  [{salary:{$gt:500}} {salary:{$lt:1000}}]})

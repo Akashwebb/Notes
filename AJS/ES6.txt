@@ -1,0 +1,393 @@
+JavaScript ES6:
+
+JavaScript ES6 (also known as ECMAScript 2015 or ECMAScript 6) is the newer version of JavaScript that was introduced 
+in 2015. ECMAScript is the standard that JavaScript programming language uses. 
+ECMAScript provides the specification on how the JavaScript programming language should work.
+
+1) JavaScript let
+JavaScript let is used to declare variables. Previously, variables were declared using the var keyword.
+The variables declared using let are block-scoped. This means they are only accessible within a particular 
+block.
+
+// variable declared using let
+let name = 'Sara';
+{
+    // can be accessed only inside
+    let name = 'Peter';
+
+    console.log(name); // Peter
+}
+console.log(name); // Sara 
+
+2) JavaScript const
+The const statement is used to declare constants in JavaScript. Once declared, you cannot change the 
+value of a const variable.
+
+// name declared with const cannot be changed
+const name = 'Sara';
+
+let name = 'Sara';
+{
+    // can be accessed only inside
+    let name = 'Peter';
+    console.log(name); // Peter
+}
+console.log(name); // Sara
+
+const value1 = 5;
+
+let value2 = 7;
+value2 = 10;
+
+
+3) JavaScript Arrow Function
+In the ES6 version, you can use arrow functions to create function expressions.
+
+This function
+
+// function expression
+let x = function(x, y) {
+   return x * y;
+}
+can be written as
+
+// function expression using arrow function
+let x = (x, y) => x * y;
+
+let x = function (x, y) {
+  return x * y;
+};
+
+console.log(x(2, 3));
+
+x = (x, y) => x * y;
+
+console.log(x(2, 3));
+
+let sum = (x, y) => {
+  let res = x + y;
+  return res;
+};
+
+console.log(sum(2, 3));
+
+let age = 5;
+let welcome =
+  age < 18 ? () => console.log("UnderAge") : () => console.log("Adult");
+
+welcome();
+
+
+
+4) JavaScript Classes
+JavaScript class is used to create an object. Class is similar to a constructor function. 
+
+Keyword class is used to create a class. The properties are assigned in a constructor function.
+
+Now you can create an object. For example,
+
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+const person1 = new Person('Swati');
+console.log(person1.name); // Swati
+
+5) Default Parameter Values
+In the ES6 version, you can pass default values in the function parameters. 
+
+function sum(x, y = 10) {
+    console.log(x + y);
+}
+
+sum(5);
+sum(5, 6);
+
+If you don't pass the parameter for y, it will take 10 by default.
+
+6) JavaScript Template Literals
+The template literal has made it easier to include variables inside a string. 
+
+For example, before you had to do:
+
+const first_name = "Jack";
+const last_name = "Sparrow";
+
+console.log('Hello ' + first_name + ' ' + last_name);
+This can be achieved using template literal by:
+
+const first_name = "Jack";
+const last_name = "Sparrow";
+
+console.log(`Hello ${first_name} ${last_name}`);
+
+7) JavaScript Destructuring
+The destructuring syntax makes it easier to assign values to a new variable.
+
+let person = {
+    name: 'Swati',
+    age: 25,
+    gender: 'female'
+}
+
+/*
+let { age, gender, name } = person;
+console.log(name, age, gender);
+console.log(person);
+*/
+
+let { name, age, occupation = "engineering" } = person;
+console.log(name, age, occupation);
+
+let { age: age1, gender: gender1, name: name1 } = person;
+console.log(name1, age1, gender1);
+
+let arr = ['one', 'two', 'three'];
+let [x, y, z] = arr;
+console.log(x, y, z);
+
+let arr1 = [10];
+let [a = 5, b = 7] = arr1;
+console.log(a, b);
+
+let var1 = 2;
+let var2 = 3;
+[var1, var2] = [var2, var1];
+console.log(var1, var2);
+
+8) JavaScript import and export
+You could export a function or a program and use it in another program by importing it. 
+
+9) JavaScript Promises
+Promises are used to handle asynchronous tasks. 
+
+*** 
+## 10) JavaScript Rest Parameter and Spread Operator
+You can use the rest parameter to represent an indefinite number of arguments as an array. 
+
+You pass the remaining arguments using (... ) syntax. Hence, the name rest parameter.
+You use the spread syntax ... to copy the items into a single array. 
+Both the rest parameter and the spread operator use the same syntax. However, 
+the spread operator is used with arrays (iterable values).
+
+
+function print(a, b, ...c) {
+    console.log(a, b, c);
+}
+print('one', 'two', 'three', 'four');
+
+let arr1 = ['one', 'two'];
+let arr2 = [...arr1, 'three', 'four', 'five'];
+console.log(arr2);
+
+let arr3 = [...arr1];
+arr1.push('Swati');
+console.log(arr3);
+
+let obj1 = {x: 1, y: 2};
+let obj2 = {z: 3};
+
+let obj3 = {...obj1, ...obj2};
+console.log(obj3);
+
+function sum(x, y, z) {
+    console.log(x+y+z);
+}
+let num1 = [1, 2, 3, 4];
+sum(...num1);
+
+
+Getters and Setters
+
+JavaScript Getter and Setter:
+
+In JavaScript, there are two kinds of object properties:
+
+1) Data properties
+2) Accessor properties
+
+Data Property:
+
+const student = {
+    // data property
+    firstName: 'Monica';
+};
+
+Accessor Property:
+In JavaScript, accessor properties are methods that get or set the value of an object. 
+
+For that, we use these two keywords:
+
+get - to define a getter method to get the property value
+set - to define a setter method to set the property value
+
+JavaScript Getter:
+In JavaScript, getter methods are used to access the properties of an object. 
+Note: To create a getter method, the get keyword is used.
+
+JavaScript Setter:
+In JavaScript, setter methods are used to change the values of an object.
+Note: To create a setter method, the set keyword is used.
+      Setter must have exactly one formal parameter.
+
+let student = {
+    firstName: 'Swati',
+
+    get getName() {
+        return this.firstName;
+    },
+    set changeName(newName) {
+        this.firstName = newName;
+    }
+};
+
+console.log(student.firstName);
+console.log(student.getName);
+student.changeName = 'Roshni';
+console.log(student.firstName);
+
+JavaScript Object.defineProperty():
+In JavaScript, you can also use the Object.defineProperty() method to add getters and setters. 
+
+let student = {
+  firstName: "Swati",
+};
+Object.defineProperty(student, "getName", {
+  get: function () {
+    return this.firstName;
+  },
+});
+Object.defineProperty(student, "changeName", {
+  set: function (newName) {
+    this.firstName = newName;
+  },
+});
+
+console.log(student.firstName);
+console.log(student.getName);
+student.changeName = "Roshni";
+console.log(student.firstName);
+
+
+
+JS Operators:
+
+JavaScript Operators:
+
+What is an Operator?
+In JavaScript, an operator is a special symbol used to perform operations on operands 
+(values and variables). For example,
+
+2 + 3; // 5
+Here + is an operator that performs addition, and 2 and 3 are operands.
+
+JavaScript Operator Types:
+
+Assignment Operators: used to assign values to variables.
+Arithmetic Operators: used to perform arithmetic calculations.
+Comparison Operators: Comparison operators compare two values and return a boolean value, either true or false.
+Logical Operators:    Logical operators perform logical operations and return a boolean value, either true or false.
+Bitwise Operators:    Bitwise operators perform operations on binary representations of numbers.
+String Operators:     you can also use the + operator to concatenate (join) two or more strings.
+
+----------------------------------------------------------------------------------------------------------------
+
+In JavaScript, this keyword refers to the object where it is called.
+
+1. this Inside Global Scope
+When this is used alone, this refers to the global object (window object in browsers).
+
+let a = this;
+console.log(a);  // Window {}
+
+this.name = 'Swati';
+console.log(window.name); // Swati
+
+2. this Inside Function
+When this is used in a function, this refers to the global object (window object in browsers).
+
+function greet() {
+    // this inside function
+    // this refers to the global object
+    console.log(this);
+}
+greet(); // Window {}
+
+3. this Inside Constructor Function
+In JavaScript, constructor functions are used to create objects. When a function is used as a constructor function, this refers to the object inside which it is used.
+
+function Person() {
+  this.name = "Swati";
+  console.log(this);
+}
+
+let person1 = new Person();
+console.log(person1.name);
+
+
+Note: When this is used with ES6 classes, it refers to the object inside which it is used(similar to constructor functions).
+
+4. this Inside Object Method
+When this is used inside an object's method, this refers to the object it lies within. 
+
+const person = {
+  name: "Swati",
+  age: 25,
+
+  // this inside method
+  // this refers to the object itself
+  greet() {
+    console.log(this);
+    console.log(this.name);
+  },
+};
+
+person.greet();
+
+5. this Inside Inner Function
+When you access this inside an inner function (inside a method), this refers to the global object. 
+
+const person = {
+  name: "Swati",
+  age: 25,
+
+  // this inside method
+  // this refers to the object itself
+  greet() {
+    console.log(this); // {name: "Swati", age ...}
+    console.log(this.age); // 25
+
+    // inner function
+    function innerFunc() {
+      // this refers to the global object
+      console.log(this); // Window { ... }
+      console.log(this.age); // undefined
+    }
+
+    innerFunc();
+  },
+};
+
+person.greet();
+
+6. this Inside Arrow Function
+Inside the arrow function, this refers to the parent scope. Arrow functions do not have their own this. When you use this inside an arrow function, this refers to its parent scope object.
+
+Example 1:
+const greet = () => {
+    console.log(this);
+}
+greet(); // Window {...}
+
+Example 2:
+let greet = {
+  name: "Swati",
+
+  sayHi() {
+    let hi = () => console.log(this.name);
+    hi();
+  },
+};
+greet.sayHi();

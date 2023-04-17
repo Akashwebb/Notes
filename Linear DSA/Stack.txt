@@ -1,0 +1,112 @@
+1. What is Stack?
+   Stack is a linear data structure that follows a particular order in which the operations are performed. 
+   The order may be LIFO(Last In First Out) or FILO(First In Last Out). 
+   LIFO implies that the element that is inserted last, comes out first and 
+   FILO implies that the element that is inserted first, comes out last.
+
+2. Basic Operations on Stack :
+   In order to make manipulations in a stack, there are certain operations provided to us.
+
+  push() to insert an element into the stack
+  pop() to remove an element from the stack
+  top() Returns the top element of the stack.
+  isEmpty() returns true if stack is empty else false.
+  size() returns the size of stack.   
+
+3. A stack can be implemented using an array or a linked list. 
+   In an array-based implementation, the push operation is implemented by incrementing the index of the top element 
+   and storing the new element at that index. 
+   The pop operation is implemented by decrementing the index of the top element and returning the value stored at that index.  
+
+4. Time Complexity of a Stack storing 'N' elements
+--- The searching operation also takes a total time of O(N), 
+--- As reaching any specific element isn't possible without popping the elements stored before it. 
+--- Operations like insertion or deletion in a stack take constant time i.e. O(1).
+
+/* javascript program to implement basic stack
+operations 
+*/
+//  var t = -1;
+//       var MAX = 1000;
+//     var a = Array(MAX) // Maximum size of Stack
+  
+//     function isEmpty() {
+//         return (t < 0);
+//     }
+  
+//     function push(x) {
+//         if (t >= (MAX - 1)) {
+//             console.log("Stack Overflow");
+//             return false;
+//         } else {
+//         t+=1;
+//             a[t] = x;
+              
+//             console.log(x + " pushed into stack");
+//             return true;
+//         }
+//     }
+  
+//     function pop() {
+//         if (t < 0) {
+//             console.log("Stack Underflow");
+//             return 0;
+//         } else {
+//             var x = a[t];
+//             t-=1;
+//             return x;
+//         }
+//     }
+  
+//     function peek() {
+//         if (t < 0) {
+//             console.log("Stack Underflow");
+//             return 0;
+//         } else {
+//             var x = a[t];
+//             return x;
+//         }
+//     }
+  
+//     function print() {
+//         for (i = t; i > -1; i--) {
+//             console.log(" " + a[i]);
+//         }
+//     }
+  
+//         push(10);
+//         push(20);
+//         push(30);
+//         console.log(pop() + " Popped from stack");
+//         console.log("Top element is :" + peek());
+//         console.log("Elements present in stack : ");
+//         print();
+  
+This code is contributed by Rajput-Ji 
+Output
+10 pushed into stack
+20 pushed into stack
+30 pushed into stack
+30 Popped from stack
+Top element is : 20
+Elements present in stack : 20 10 
+
+==> Advantages of array implementation:
+     Easy to implement.
+     Memory is saved as pointers are not involved.
+==> Disadvantages of array implementation:
+     It is not dynamic i.e., it doesn’t grow and shrink depending on needs at runtime. [But in case of dynamic sized arrays like vector in C++, list in Python, ArrayList in Java, stacks can grow and shrink with array implementation as well].
+     The total size of the stack must be defined beforehand.   
+
+#USES  :: 
+
+1. They’re very useful because they afford you constant time O(1) operations when inserting or 
+removing from the front of a data structure. 
+
+2. One common use of a stack is in compilers, where a stack can be used to make sure that the brackets and parentheses
+in a code file are all balanced, i.e., have an opening and closing counterpart. 
+
+3. Stacks are also very useful in evaluating mathematical expressions.
+
+---------------------------------------------------------------------------------------------------------------
+
