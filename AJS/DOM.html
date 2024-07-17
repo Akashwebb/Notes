@@ -242,6 +242,17 @@ Note: The event.stopPropagation () method stops the move upwards bubbling (on on
       but all the other handlers still run on the current element.
 
 -------------------------------------------------------------------------------------------------------------- -->
+Understanding Prototypes
+1. Prototype Chain
+Every JavaScript object has a prototype. When you access a property or method on an object, JavaScript first looks for that property or method directly on the object itself. If it doesn't find it, it looks at the object's prototype, and then continues up the prototype chain until it finds the property/method or reaches the top of the chain (usually Object.prototype).
+
+2. prototype Property
+Each function in JavaScript has a prototype property by default. This property is used primarily when creating objects with that function as a constructor.
+The prototype property of a function is not the prototype of the function itself, but rather the prototype that will be assigned to all instances of objects created using that function as a constructor.
+3. __proto__
+Every object in JavaScript has a special property __proto__ (deprecated and should not be used directly for accessing or setting prototype).
+__proto__ refers to the actual prototype object of that object.
+
 
 <!-- // When we try to access something (method) on arr, 
 //JS first checks if that is present on arr
