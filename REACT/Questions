@@ -1,0 +1,169 @@
+# React :
+
+useState: Hook that lets you add React state to functional components.
+
+useEffect: Hook that lets you perform side effects in function components. It combines the functionality of componentDidMount, componentDidUpdate, and componentWillUnmount in class components.
+
+useContext: Hook that allows you to use React context in functional components.
+
+useReducer: Hook for managing more complex state logic within a component.
+
+useMemo: Hook that allows you to memoize expensive computations so that you can avoid expensive calculations on every render.
+
+useCallback: Hook that returns a memoized callback, useful for preventing unnecessary re-renders in child components.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Q1 . I am doing an Api call and then i want that data to be store in my react application so that i dont do any more api call and use that data in my whole applictaion, how to do it
+--- now if a new item is added in the database , will this store data will also get updated or the data will remain same 
+
+# State Management: 
+How would you manage complex state in a React application, especially when multiple components need access to the same state data?
+
+=> Managing complex state in React can be done using local component state, context API, or state management libraries like Redux. When multiple components need access to the same state data, Redux is often preferred for its centralized store and predictable state management through actions and reducers.
+
+
+# Lifecycle Methods: 
+Explain the lifecycle methods of a React component and give examples of scenarios where componentDidMount and componentWillUnmount would be used.
+
+1. Mounting Phase
+These methods are called when an instance of a component is being created and inserted into the DOM:
+constructor()    render()       componentDidMount(): This method is invoked immediately after a component is mounted 
+
+2. componentDidMount: Used to perform actions after the component has mounted (e.g., fetching data from a server).
+
+3. componentDidMount(): This method is invoked immediately after a component is mounted 
+   componentDidUpdate(prevProps, prevState, snapshot): This method is called immediately after the update (re-render) occurs.
+
+4. Unmounting Phase() : This method is called when a component is being removed from the DOM:
+componentWillUnmount: Used for cleanup actions before the component is removed from the DOM (e.g., unsubscribing from external event listeners).
+
+
+# Performance Optimization: 
+What are some techniques you can use to optimize the performance of a React application, especially when dealing with large lists or complex rendering logic?
+
+=> Memoization: Using memo and useMemo to avoid unnecessary re-renders.
+Virtualization: Rendering only what's visible, especially for large lists, using libraries like react-virtualized.
+Code Splitting: Dynamically load parts of the application to reduce initial bundle size.
+
+<!-- -------------------------------------------------------------------------------------------------- -->
+<!-- -------------------------------------------------------------------------------------------------- -->
+
+# When to use PROPS and when to use USE Context 
+
+=> When to Use Props:
+
+1. Passing Data Down the Component Tree:
+Use props when you need to pass data from a parent component to a child component.
+Props are suitable for simple and direct data flow, where the state is mostly local to a few components.
+2. Static or Non-Changing Data:
+Use props for data that doesn't change frequently or doesn't need to be shared across many components.
+
+=> When to Use Context:
+
+1. Global State:
+Use context for state that needs to be accessible by many components at different levels of the component tree.
+Context is useful for global state like themes, authentication, user settings, etc.
+2. Avoiding Prop Drilling:
+Use context to avoid prop drilling (passing props through many layers of components).
+
+=> When to Use Redux:
+
+1. Complex State Management:
+Use Redux for complex state management where multiple components across different parts of the application need to access and update the same state.
+2. Predictable State Changes:
+Redux is useful when you need a predictable state container with strict rules for how state can be updated.
+
+<!-- ------------------------------------------------------------------------------------------------------------------------------------------------ -->
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+# I am having a search box where when user is typing any alphabet , its hitting my database again and again , But I  want to delay an API call until the user stops typing for a certain period (debouncing) or to avoid making too many requests in a short time.   How can you do that  ??
+
+=> setTimeout Usage:
+
+setTimeout schedules a function to be called after a specified number of milliseconds.
+Effect Dependencies:
+
+In the useEffect hook, the dependency array ensures that the setTimeout is reset every time the dependencies change (e.g., query in the search example).
+Cleanup Function:
+
+Always include a cleanup function to clear the timeout. This prevents memory leaks and ensures that the timeout is cleared if the component unmounts or the dependencies change before the timeout completes.
+State Updates:
+
+Remember that setTimeout does not guarantee exact timing, especially if the browser is busy with other tasks. Use it for non-critical delays, like showing/hiding UI elements or debouncing input.
+
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- ---------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+# Core Concepts of Redux
+
+1. Store:
+The store holds the entire state of the application. It is a single JavaScript object.
+There is only one store in a Redux application.
+
+2. Actions:
+Actions are plain JavaScript objects that describe a change in the state.
+Each action must have a type property that indicates the type of action being performed. Optionally, actions can have a payload property with additional data.
+
+3. Reducers:
+Reducers are pure functions that take the current state and an action as arguments and return a new state.
+The reducer specifies how the state changes in response to an action.
+
+4. Dispatch:
+Dispatch is a function used to send actions to the store.
+When an action is dispatched, the store calls the reducer with the current state and the action, and then updates the state based on the return value of the reducer.
+
+5. Selectors:
+Selectors are functions that extract specific pieces of state from the store.
+They help in accessing the state in a more modular and reusable way.
+
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- ----------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+# Promise  and   Async/Await  
+
+1. Promises
+A Promise is an object representing the eventual completion or failure of an asynchronous operation.
+
+States: A Promise can be in one of three states: pending, fulfilled, or rejected.
+Methods:
+.then(): Used to specify what to do when the promise is fulfilled.
+.catch(): Used to handle any error that occurs during the execution of the promise.
+.finally(): Used to execute code after the promise is either fulfilled or rejected.
+
+Promises handle errors using .catch().
+
+2. Async/Await
+async/await is syntactic sugar over Promises, making asynchronous code look and behave more like synchronous code.
+
+async Function: Declares an asynchronous function, which automatically returns a Promise.
+await Expression: Pauses the execution of the async function until the Promise is resolved or rejected.
+
+async/await handle errors using try/catch blocks,
+
+<!-- -------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+# Error Handling: How do you handle errors in React applications? What are the best practices for catching and displaying errors, both during development and in production?
+
+=> Development: Use try-catch blocks and console logging for debugging.
+Production: Implement error boundaries (ErrorBoundary in React) to catch errors in components and display fallback UIs to users.
+
+
+# Routing: Discuss how you would implement client-side routing in a React application. What are the advantages of using a library like React Router?
+
+=> Implement client-side routing using libraries like React Router, which allows defining routes and rendering components based on the URL. Advantages include declarative routing, nested route support, and integration with React's component model.
+
+
+# Testing: Describe your approach to testing React components. What tools and libraries would you use for unit testing, integration testing, and end-to-end testing?
+
+=> Unit Testing: Tools like Jest and React Testing Library to test individual components in isolation.
+Integration Testing: Test how components work together.
+End-to-End Testing: Tools like Cypress or Selenium for testing entire application flows from the user's perspective.
+
+# Server Communication: Explain how you would fetch data from a server and update your React components accordingly. What are the benefits of using fetch vs. libraries like Axios?
+
+=> Fetching Data: Use fetch API or libraries like Axios to make HTTP requests from React components.
+Benefits of Axios: Provides more features out-of-the-box like interceptors, transforming requests and responses, and better error handling compared to fetch.
