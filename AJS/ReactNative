@@ -1,1 +1,45 @@
+React native uses same codebase for both Android and IOS
+1. Android App Development
+Languages: Java, Kotlin
+IDE (Development Tool): Android Studio
+UI Frameworks: Jetpack Compose, XML-based layouts
+Build System: Gradle
+Testing Tools: Espresso, JUnit
 
+2. iOS App Development
+Languages: Swift, Objective-C
+IDE (Development Tool): Xcode
+UI Frameworks: SwiftUI, UIKit
+Build System: Xcode Build System
+Testing Tools: XCTest
+
+npx @react-native-community/cli@latest init AwesomeProject  ( to create an app )
+
+<View> replaces <div>  , <Text> replaces <p> or <span>.
+No HTML, only JSX components.
+Styling is done using StyleSheet API instead of CSS.
+
+SCSS : Sassy CSS , It allows variables, nesting, and mixins, making styles more reusable and maintainable.
+Example:
+$primary-color: blue;
+.container {
+  background-color: $primary-color;
+  color: white;
+}
+
+FOLDER STRUCTURE : 
+1. android/ (Android-specific code)
+AndroidManifest.xml → Contains Android app permissions & settings.
+MainActivity.java → Entry point for the Android app.
+build.gradle → Configuration file for dependencies & SDK version.
+
+2. ios/ (iOS-specific code)
+Info.plist → Contains iOS app metadata (permissions, display name, etc.).
+AppDelegate.m → Entry point for the iOS app.
+Podfile → Manages iOS dependencies using CocoaPods.
+
+3. index.js (Entry Point)
+4. App.js (Main App Component)
+5. package.json (Project Config & Dependencies)
+6. babel.config.js (Babel Configuration) - Babel helps transform modern JavaScript to be compatible with older environments.
+7. metro.config.js (Metro Bundler Config)
