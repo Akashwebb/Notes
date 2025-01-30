@@ -1,0 +1,123 @@
+
+Here are some important medium-level Azure interview questions with their answers:
+
+1️⃣ Azure Basics & Fundamentals
+Q1: What is Azure Resource Manager (ARM), and how does it work?
+Answer:
+Azure Resource Manager (ARM) is the deployment and management service for Azure. It allows you to create, update, and delete resources as a group instead of managing them individually.
+Uses JSON-based ARM templates for infrastructure as code (IaC).
+Supports role-based access control (RBAC) for security.
+Enables declarative deployment without manual intervention.
+
+Q2: What is an Azure Virtual Machine (VM), and how is it different from Azure App Services?
+Answer:
+Azure VM: A fully managed Infrastructure-as-a-Service (IaaS) that provides virtualized computing power. Requires manual OS and software management.
+Azure App Services: A Platform-as-a-Service (PaaS) solution for hosting web apps, APIs, and mobile backends, without managing the underlying infrastructure.
+Use Azure VMs when you need full control over the environment.
+Use App Services when you want a managed hosting solution for applications.
+
+Q3: Explain Azure Availability Zones and how they improve reliability.
+Answer:
+Azure Availability Zones are physically separate data centers within an Azure region. Each zone has independent power, networking, and cooling, ensuring high availability (99.99% uptime SLA) for critical workloads.
+Example: Deploying VMs across multiple zones ensures failover in case of a zone failure.
+
+Q4: What is an Azure Resource Group, and why is it important?
+Answer:
+An Azure Resource Group is a container that holds related Azure resources (VMs, databases, storage, etc.). It helps in:
+✅ Logical organization of resources.
+✅ Managing permissions using RBAC.
+✅ Monitoring & cost tracking at the group level.
+
+
+
+💡 Best Practice: Keep resources with similar lifecycles in the same group.
+Q5: What is the difference between Azure Blob Storage, File Storage, and Disk Storage?
+Answer:
+Storage Type	Use Case	Features
+Blob Storage	Storing unstructured data (images, videos, backups)	Object storage, highly scalable
+File Storage	Network file sharing across Azure VMs	Supports SMB protocol, managed file shares
+Disk Storage	Persistent storage for VMs	SSDs/HDDs, optimized for performance
+Use Blob Storage for cloud applications, File Storage for shared access, and Disk Storage for VMs.
+
+
+2️⃣ Azure Compute Services
+Q6: What are the different types of Azure Virtual Machine scaling?
+Answer:
+
+Manual Scaling – Manually adjust the number of VM instances.
+Autoscale – Automatically increases or decreases VM instances based on CPU/memory utilization.
+Virtual Machine Scale Sets (VMSS) – Automatically deploys and manages identical VMs across availability zones.
+💡 Best Practice: Use VM Scale Sets for high availability and autoscaling.
+
+Q7: Explain Azure Kubernetes Service (AKS) and its advantages.
+Answer:
+Azure Kubernetes Service (AKS) is a managed Kubernetes service that automates containerized application deployment, scaling, and operations.
+
+✅ Simplifies Kubernetes cluster management.
+✅ Built-in monitoring with Azure Monitor.
+✅ Auto-scaling based on demand.
+✅ Integrated security with Azure Active Directory (AAD).
+
+Use AKS when deploying microservices and containerized applications.
+
+
+Q8: What is the difference between Azure Functions and Logic Apps?
+Answer:
+
+Feature	Azure Functions	Azure Logic Apps
+Type	Serverless compute	Workflow automation
+Trigger	Code-based (HTTP, queue, event)	Event-driven (APIs, connectors)
+Use Case	Custom functions, API backend	Integrating services, workflows
+💡 Use Azure Functions for event-driven backend logic, and Logic Apps for automating workflows like email notifications.
+
+Q9: How does Azure App Service Plan work, and how do you choose the right plan?
+Answer:
+Azure App Service Plan determines the scalability, performance, and pricing of web applications.
+🔹 Free/Tier: For testing & learning.
+🔹 Basic: Small applications with low traffic.
+🔹 Standard: Medium traffic applications with auto-scaling.
+🔹 Premium: High-performance apps with better security & scaling.
+
+
+💡 Choose a plan based on traffic, performance needs, and budget.
+
+Q10: How do you secure an Azure VM and restrict access?
+Answer:
+✅ Use NSGs (Network Security Groups) to control inbound/outbound traffic.
+✅ Enable Just-In-Time (JIT) access to limit VM login time.
+✅ Use Azure Bastion to securely access VMs without exposing public IP.
+✅ Implement disk encryption with Azure Key Vault.
+✅ Enable Defender for Cloud to detect security threats.
+
+
+Best Practice: Disable RDP/SSH public access and use VPN or Bastion for secure connections.
+
+3️⃣ Azure Networking
+Q11: What is an Azure Virtual Network (VNet), and how does it work?
+Answer:
+Azure Virtual Network (VNet) is a logically isolated network in Azure that enables secure communication between Azure services and on-premises networks.
+
+✅ Subnets – Divide networks for better management.
+✅ VPN Gateway – Connects on-premises networks to Azure.
+✅ NSGs – Control traffic between resources.
+
+💡 Best Practice: Use multiple subnets to separate workloads like databases, web servers, and application servers.
+
+Q12: What is the purpose of Azure VPN Gateway?
+Answer:
+Azure VPN Gateway securely connects on-premises networks to Azure VNets over an IPSec or OpenVPN tunnel.
+
+🔹 Point-to-Site (P2S): Connects a single device to Azure.
+🔹 Site-to-Site (S2S): Connects an entire on-prem network to Azure.
+🔹 ExpressRoute: Dedicated private connection (faster than VPN).
+
+💡 Use S2S VPN for hybrid cloud scenarios.
+
+Q13: Explain the difference between Azure Load Balancer and Azure Application Gateway.
+Answer:
+
+Feature	Azure Load Balancer	Azure Application Gateway
+Layer	Layer 4 (Transport)	Layer 7 (Application)
+Traffic Type	TCP/UDP	HTTP/HTTPS
+Features	Distributes VM traffic	URL-based routing, SSL termination
+Use Case	Balancing VM workloads	Load balancing web applications
