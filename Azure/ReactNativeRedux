@@ -1,0 +1,80 @@
+#Async Storage
+npm install @react-native-async-storage/async-storage
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+await AsyncStorage.setItem('userEmail', 'User1@gmail.com');
+const value = await AsyncStorage.getItem('userEmail');
+
+
+
+#  Redux Concept
+npm install @reduxjs/toolkit  react-redux
+
+1. Create folder -> Redux 
+2. Inside Redux -> Slice folder and Storage folder 
+
+
+Store.js file ::--------------------------------------------------------
+
+import { configureStore } from '@reduxjs/toolkit';
+import userSlice from "../Slices/userSlice"
+
+export const store = configureStore({
+  reducer: {
+    user: userSlice, // Add user reducer WHICH IS SAME NAME AS IN  "createSlice" --> name: ""
+  },
+});
+
+
+userSlice.js file ------------------------------------------------------
+
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  email: null,
+  role: null,
+};
+
+const userSlice = createSlice({
+  name: 'user',     
+  initialState,
+  reducers: {
+    setUser: (state, action) => {
+      state.email = action.payload.email;
+      state.role = action.payload.role;
+    },
+    clearUser: (state) => {
+      state.email = null;
+      state.role = null;
+    },
+  },
+});
+
+export const { setUser, clearUser } = userSlice.actions;  // exporting reducer fuction to retriev a value
+export default userSlice.reducer;                         
+
+
+
+App.jsx file --------------------------------------------------------------------------------------------
+import { Provider } from 'react-redux';
+import { store } from './src/Redux/Storage/Store';
+
+<Provider store={store }>
+        <Main />
+        </Provider>
+
+
+
+login.js file ------------------------- to Dispatch value in redux ------------------------------------
+
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../Redux/Slices/userSlice';
+
+const dispatch= useDispatch()
+dispatch(setUser({ email: email, role: user.role }));   // take the value inside setUser object (email and user)
+
+
+profile.js file -------------------------- to display the vale -------------------------------------------
+
+import { useSelector } from 'react-redux';
+const { email, role } = useSelector((state) => state.user);
