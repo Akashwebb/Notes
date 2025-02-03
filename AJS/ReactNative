@@ -58,6 +58,7 @@ Podfile → Manages iOS dependencies using CocoaPods.
 11. SectionList -> Similar to FlatList but supports grouped sections.
 12. ActivityIndicator -> Displays a loading spinner.
 13. Vibration -> Triggers device vibrations.
+14. TouchableOpacity -> 
 
 # React Navigation :
 
