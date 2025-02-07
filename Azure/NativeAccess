@@ -23,4 +23,88 @@ import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 
 ---------------------------------------------------------------------------------------------------------------------------------
 
+# LOCTION PERMISSION 
+
+npm install react-native-permissions react-native-geolocation-service
+
+AndroidManifest.xml ---------->
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+CODE #
+import React, { useState, useEffect } from "react";
+import { View, Text, Button, Alert, Platform } from "react-native";
+import Geolocation from "react-native-geolocation-service";
+import { check, request, PERMISSIONS, RESULTS } from "react-native-permissions";
+
+const LocationPermission = () => {
+  const [location, setLocation] = useState(null);
+  const [permissionStatus, setPermissionStatus] = useState("Checking...");
+
+  useEffect(() => {
+    checkLocationPermission();
+  }, []);
+
+  const checkLocationPermission = async () => {
+    const permission =
+      Platform.OS === "ios" ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+
+    const result = await check(permission);
+
+    if (result === RESULTS.GRANTED) {
+      setPermissionStatus("Granted");
+      getLocation();
+    } else {
+      setPermissionStatus("Not Granted");
+    }
+  };
+
+  const requestLocationPermission = async () => {
+    const permission =
+      Platform.OS === "ios" ? PERMISSIONS.IOS.LOCATION_WHEN_IN_USE : PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION;
+
+    const result = await request(permission);
+
+    if (result === RESULTS.GRANTED) {
+      setPermissionStatus("Granted");
+      getLocation();
+    } else {
+      setPermissionStatus("Denied");
+      Alert.alert("Permission Required", "Please enable location permissions in settings.");
+    }
+  };
+
+  const getLocation = () => {
+    Geolocation.getCurrentPosition(
+      (position) => {
+        setLocation({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+      },
+      (error) => {
+        Alert.alert("Error", error.message);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+    );
+  };
+
+  return (
+    <View style={{ padding: 20 }}>
+      <Text>Location Permission: {permissionStatus}</Text>
+      {location ? (
+        <Text>
+          Latitude: {location.latitude}, Longitude: {location.longitude}
+        </Text>
+      ) : (
+        <Button title="Request Permission" onPress={requestLocationPermission} />
+      )}
+    </View>
+  );
+};
+
+export default LocationPermission;
+
+-------------------------------------------------------------------------------------------------------------------------------------
+
 
