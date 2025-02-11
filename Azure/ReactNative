@@ -1,0 +1,104 @@
+React native uses same codebase for both Android and IOS
+1. Android App Development
+Languages: Java, Kotlin
+IDE (Development Tool): Android Studio
+UI Frameworks: Jetpack Compose, XML-based layouts
+Build System: Gradle
+Testing Tools: Espresso, JUnit
+
+2. iOS App Development
+Languages: Swift, Objective-C
+IDE (Development Tool): Xcode
+UI Frameworks: SwiftUI, UIKit
+Build System: Xcode Build System
+Testing Tools: XCTest
+
+npx @react-native-community/cli@latest init AwesomeProject  ( to create an app )
+
+<View> replaces <div>  , <Text> replaces <p> or <span>.
+No HTML, only JSX components.
+Styling is done using StyleSheet API instead of CSS.
+
+SCSS : Sassy CSS , It allows variables, nesting, and mixins, making styles more reusable and maintainable.
+Example:
+$primary-color: blue;
+.container {
+  background-color: $primary-color;
+  color: white;
+}
+
+FOLDER STRUCTURE : 
+1. android/ (Android-specific code)
+AndroidManifest.xml → Contains Android app permissions & settings.
+MainActivity.java → Entry point for the Android app.
+build.gradle → Configuration file for dependencies & SDK version.
+
+2. ios/ (iOS-specific code)
+Info.plist → Contains iOS app metadata (permissions, display name, etc.).
+AppDelegate.m → Entry point for the iOS app.
+Podfile → Manages iOS dependencies using CocoaPods.
+
+3. index.js (Entry Point)
+4. App.js (Main App Component)
+5. package.json (Project Config & Dependencies)
+6. babel.config.js (Babel Configuration) - Babel helps transform modern JavaScript to be compatible with older environments.
+7. metro.config.js (Metro Bundler Config)
+
+# Core React Native Components:
+1. SafeAreaView → Ensures content is within the safe area (avoids notches, status bar, etc.).
+2. ScrollView → Provides a scrollable container for child components.
+3. StatusBar → Controls the appearance of the device’s status bar (color, visibility, etc.).
+4. StyleSheet → Helps define styles in a structured manner, similar to CSS.
+5. Text → Displays text content in the app.
+6. useColorScheme → A React Hook that detects whether the system theme is light or dark.
+7. View → A basic container for laying out UI elements (similar to <div> in HTML).
+8. KeyboardAvoidingView ->	Prevents the keyboard from overlapping input fields.
+9. Modal -> Displays a pop-up/modal dialog.
+10.FlatList	-> Optimized for rendering large lists with better performance.
+11. SectionList -> Similar to FlatList but supports grouped sections.
+12. ActivityIndicator -> Displays a loading spinner.
+13. Vibration -> Triggers device vibrations.
+14. TouchableOpacity -> 
+
+# React Navigation :
+
+Steps :
+npm install @react-navigation/native   ->  This is the core package ,  provides the NavigationContainer
+npm install react-native-screens react-native-safe-area-context react-native-gesture-handler react-native-reanimated react-native-vector-icons  -> dependencies
+
+1. Stack Navigator (for screen-to-screen navigation)    ->  npm install @react-navigation/stack
+2. Bottom Tab Navigator (for bottom tabs)   ->  @react-navigation/bottom-tabs
+3. Drawer Navigator (for side menu drawer)
+
+#Icons : 
+npm install react-native-vector-icons
+1.Create a folder, asset and fonts   in android/src/main/assets/fonts
+2.Search, react-native-vector-icons in   Node Module
+3.Copy paste , all font files, Icons, inside assets/fonts
+
+
+
+
+
+1. SafeAreaView is a built-in component in React Native that ensures content is displayed within the safe area boundaries of a device, avoiding overlaps with notches, status bars, and navigation bars.
+--> Uses flex: 1 → Makes it take the full screen height.
+
+import React from 'react';
+import { SafeAreaView, Text, StyleSheet } from 'react-native';
+const App = () => {
+  return (
+    <SafeAreaView style={styles.container}>
+      <Text>Hello, this is inside SafeAreaView!</Text>
+    </SafeAreaView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f0f0f0',
+  },
+});
+
+export default App;
+
