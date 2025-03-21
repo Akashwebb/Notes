@@ -203,6 +203,47 @@ delete a record - “DELETE.”
 
 The most commonly used API technologies are XMLHttpRequest, Ajax, FetchAPI, and Axios.
 
+-----------------------------------------------------------------------------------------------------------------------------
+
+Lifecycle Phases in Class Components  :::----------
+
+A class component lifecycle has three main phases:
+
+1. Mounting (Component Creation)
+When a component is created and added to the DOM.
+
+constructor(): Initializes state and props.
+static getDerivedStateFromProps(): Syncs state with props (rarely used).
+render(): Returns JSX for UI.
+componentDidMount(): Runs after the component is added to the DOM (used for API calls).
+
+2. Updating (Component Re-renders)
+Happens when state or props change.
+
+static getDerivedStateFromProps(): Syncs state with new props.
+shouldComponentUpdate(): Decides if re-render is needed (performance optimization).
+render(): Re-renders UI.
+getSnapshotBeforeUpdate(): Captures information before DOM updates.
+componentDidUpdate(): Runs after the re-render (useful for API calls based on updates).
+
+3. Unmounting (Component Removal)
+When a component is removed from the DOM.
+
+componentWillUnmount(): Used for cleanup (removing event listeners, clearing timers, etc.).
+Functional Component Lifecycle (Using Hooks)
+Functional components don’t have lifecycle methods, but React Hooks (useEffect, useState, etc.) allow similar behavior.
+
+COMPARISION WITH FUNCTIONAL COMPONENT ----------------------------------------
+1. Mounting (Equivalent to componentDidMount)
+useEffect(() => { /* Runs once after mount */ }, []);
+Used for API calls, subscriptions, etc.
+2. Updating (Equivalent to componentDidUpdate)
+useEffect(() => { /* Runs after every update */ }, [dependency]);
+Runs when dependencies (state/props) change.
+3. Unmounting (Equivalent to componentWillUnmount)
+useEffect(() => { return () => { /* Cleanup code */ }; }, []);
+Runs when the component is removed from the DOM.
+
 
 
 
