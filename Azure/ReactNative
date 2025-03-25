@@ -1,3 +1,6 @@
+j  :  to debug in console 
+r  :  to reload 
+
 React native uses same codebase for both Android and IOS
 1. Android App Development
 Languages: Java, Kotlin
@@ -102,3 +105,8 @@ const styles = StyleSheet.create({
 
 export default App;
 
+Properties of flatlist :
+data={FoodData.allFood}
+renderItem={({ item }) => <Text>{item.name}</Text>}  :  A function that takes an item from data and returns a React component.
+keyExtractor={(item) => item.id}  : Function to return a unique key for each item in data, helping React optimize
+numColumns={2}  : Defines the number of columns in the list (used for grid-like layouts).
