@@ -1,0 +1,44 @@
+
+1. Run this command in terminal
+keytool -genkeypair -v -keystore my-release-key.keystore -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000
+
+fill all the details 
+
+2. Save the my-release-key.keystore file inside your project at:
+android/app/my-release-key.keystore
+
+3. Open android/gradle.properties and add the following:
+
+MYAPP_UPLOAD_STORE_FILE=my-release-key.keystore
+MYAPP_UPLOAD_KEY_ALIAS=my-key-alias
+MYAPP_UPLOAD_STORE_PASSWORD=your-store-password
+MYAPP_UPLOAD_KEY_PASSWORD=your-key-password
+
+4. Inside android/app/build.gradle, find the signingConfigs block and add:
+
+android {
+  ...
+  signingConfigs {
+    release {
+      storeFile file(MYAPP_UPLOAD_STORE_FILE)
+      storePassword MYAPP_UPLOAD_STORE_PASSWORD
+      keyAlias MYAPP_UPLOAD_KEY_ALIAS
+      keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+    }
+  }
+  buildTypes {
+    release {
+      signingConfig signingConfigs.release
+      minifyEnabled false
+      shrinkResources false
+      proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+    }
+  }
+}
+
+5. In the root of your project, run:
+
+cd android
+./gradlew assembleRelease
+
+APK AT :  android/app/build/outputs/apk/release/app-release.apk
