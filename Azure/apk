@@ -1,0 +1,37 @@
+To run iOS  
+— Change the path to iOS 
+— pod install  
+— go to iOS folder  
+— open “xcworkspace” file 
+— and click on run button   
+
+export NODE_EXTRA_CA_CERTS="/Users/akashsingh/Downloads/certificate.crt"
+ Make sure metro is running   
+For android 
+— npx react-native run-android  
+
+############################################
+@ IF android studio live getting fail due to port :  
+
+1. lsof -i :5037
+2. kill -9 64362   
+3. adb kill-server
+   adb start-server  
+
+############################################
+@ CLEANING THE Gladly :   
+
+cd android
+./gradlew clean
+cd ..
+
+##################################################
+
+@ When there is watchman error :: ———  
+
+1. Create an empty .watchmanconfig file in your project root 
+2. touch .watchmanconfig (In terminal )
+3. watchman shutdown-server
+4. watchman watch-project   /Users/akashsingh/Desktop/MyNewApp 
+
+
