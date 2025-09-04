@@ -10,6 +10,12 @@ export NODE_EXTRA_CA_CERTS="/Users/akashsingh/Downloads/certificate.crt"
 For android 
 — npx react-native run-android  
 
+###########################################
+
+If you have release apk and want that to run in mobile through cable --------  run command in terminal : 
+# adb install android/app/build/outputs/apk/release/app-release.apk
+
+
 ############################################
 @ IF android studio live getting fail due to port :  
 
