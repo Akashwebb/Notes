@@ -42,3 +42,8 @@ cd android
 ./gradlew assembleRelease
 
 APK AT :  android/app/build/outputs/apk/release/app-release.apk
+
+##########################################################################
+
+If you have release apk and want that to run in mobile through cable --------  run command in terminal : 
+# adb install android/app/build/outputs/apk/release/app-release.apk
