@@ -13,8 +13,8 @@ For android
 ###########################################
 
 If you have release apk and want that to run in mobile through cable --------  run command in terminal : 
-# adb install android/app/build/outputs/apk/release/app-release.apk
 
+# adb install android/app/build/outputs/apk/release/app-release.apk
 
 ############################################
 @ IF android studio live getting fail due to port :  
@@ -23,6 +23,11 @@ If you have release apk and want that to run in mobile through cable --------  r
 2. kill -9 64362   
 3. adb kill-server
    adb start-server  
+
+@ ERROR -- Medium phone api 35 is already running :  
+
+1. ps aux | grep emulator
+2. kill -9 64362
 
 ############################################
 @ CLEANING THE Gladly :   
@@ -39,3 +44,92 @@ cd ..
 2. touch .watchmanconfig (In terminal )
 3. watchman shutdown-server
 4. watchman watch-project   /Users/akashsingh/Desktop/MyNewApp 
+
+2. Create a .watchmanconfig file
+Inside your React Native project root:
+cd /Users/akashsingh/Desktop/MyNewApptouch .watchmanconfig
+That empty file tells Watchman to watch this directory.
+3. Restart Watchman
+Run these commands:
+watchman watch-del-all
+watchman shutdown-server
+watchman watch-project .
+
+#############################################################
+
+@ Removing the corrupted builds 
+
+cd android
+rm -rf .cxx build
+./gradlew clean
+cd ..
+npx react-native run-android
+
+############################################################################
+
+@ Error with IOS cocapod and ios emulatator is not running 
+
+# Navigate to your ios directory
+cd ios
+ 
+# Clean CocoaPods cache
+pod cache clean --all
+ 
+# Deintegrate CocoaPods from project
+pod deintegrate
+ 
+# Remove generated files
+rm -rf Pods
+rm Podfile.lock
+rm -rf build
+rm -rf ~/Library/Caches/CocoaPods
+ 
+# Clean Xcode derived data
+rm -rf ~/Library/Developer/Xcode/DerivedData
+ 
+# Navigate back to project root and reinstall
+cd ..
+npx react-native clean
+cd ios
+ 
+# Try installing again
+pod install
+
+################################################################################
+
+Deep clean react native project:
+
+1️⃣ Delete build and cache folders
+From your project root, run:
+
+rm -rf node_modules
+rm -rf android/.gradle
+rm -rf android/app/build
+rm -rf android/build
+rm -rf android/.cxx
+rm -rf ios/build
+rm -rf ios/Pods
+rm -rf ios/Podfile.lock
+ 
+2️⃣ Delete lock files
+rm -f package-lock.json yarn.lock
+ 
+3️⃣ Clear watchman and Metro cache
+watchman watch-del-all || true
+rm -rf /tmp/metro-* || true
+rm -rf /tmp/haste-map-* || true
+ 
+4️⃣ Reinstall dependencies
+If you use npm:
+
+npm install --legacy-peer-deps
+If you use yarn:
+
+yarn install
+ 
+5️⃣ Clean and rebuild Android
+
+cd android
+./gradlew clean
+cd ..
+
