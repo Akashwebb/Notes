@@ -50,3 +50,29 @@ If you have release apk and want that to run in mobile through cable --------  r
 cd android
 ./gradlew assembleRelease
 # adb install android/app/build/outputs/apk/release/app-release.apk
+
+############################################################################
+
+ @ DEBUG RELEASE --- 
+
+Bundle the JS code into assets
+  npx react-native bundle \
+  --platform android \
+  --dev false \
+  --entry-file index.js \
+  --bundle-output android/app/src/main/assets/index.android.bundle \
+  --assets-dest android/app/src/main/res
+ 
+ 
+If android/app/src/main/assets doesn’t exist, create it:
+      mkdir -p android/app/src/main/assets
+ 
+Rebuild the app
+     cd android
+     ./gradlew assembleDebug
+
+############################################################################
+
+Debug APK:     cd android && ./gradlew assembleDebug
+Release APK:    cd android && ./gradlew assembleRelease  
+Release AAB:    cd android && ./gradlew bundleRelease    // For playstore
