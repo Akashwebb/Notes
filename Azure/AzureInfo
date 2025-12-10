@@ -1,0 +1,52 @@
+1. What is Azure? 🌥️
+
+Microsoft Azure is a cloud computing platform by Microsoft.
+Think of it as Microsoft’s big online computer that you can use for hosting apps, storing data, running code, 
+and much more without managing physical servers.
+
+2. 
+| Azure Service                    | What It Does                            |
+| -------------------------------- | --------------------------------------- |
+| Azure App Service                | Deploy websites & backend APIs          |
+| Azure Storage                    | Store files, documents, images          |
+| Azure SQL Database               | Store data in a cloud database          |
+| Azure Functions                  | Run small backend code without a server |
+| Azure Virtual Machines (VMs)     | Rent a computer/server in the cloud     |
+| Azure Blob Storage               | Store large files like videos, PDFs     |
+
+3. What is Cloud? ☁️ 
+Cloud means using someone else’s powerful computer (server) through the internet instead of using your own computer or company servers.
+
+4. IaaS, PaaS, SaaS (The 3 Cloud Services)   🏗️ 🏗️ 
+Think of them like services in a restaurant.
+
+*IaaS* (Infrastructure as a Service)  🍳 🍳 
+Examples: Azure VM, AWS EC2
+Used for: complete control over computing.
+
+*PaaS* (Platform as a Service)  🍽️ 🍽️ 
+Examples: Azure App Service, Azure Functions
+Used for: hosting apps easily without managing servers.
+
+*SaaS* (Software as a Service)  🛵 🛵 
+Examples: Gmail, Office 365, Teams, Salesforce
+Used when you want to use software directly.
+
+5. Azure Storage   
+Blob Storage  -> PDFs, Images, Videos
+Table Storage  -> Key value pair
+File Storage   -> Company shared folder 
+Queue Storage  -> Background 
+### A blob = a file. Blobs live inside containers, which live inside a storage account.
+
+6. Azure Database
+SQL   -> Azure Sql server 
+NoSql  -> CosmoDb
+
+| Task                            | Where it goes in Azure |
+| ------------------------------- | ---------------------- |
+| Upload file                     |  Azure Blob Storage    |
+| Store file details (name, date) |  Azure SQL Database    |
+| API that handles upload         |  Azure App Service     |
+
+
