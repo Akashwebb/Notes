@@ -7,9 +7,26 @@ A name/value pair must be in double quotes and colon ( : ) at center
 
 JSON objects are written inside curly braces and can contain multiple name/value pairs:
 let jsonData=  {
-                  "firstName":"John", 
+                  "firstName":"John",       // Key must be strings i.e :  in double quotes. 
                   "lastName":"Doe"
                 }
+
+Object -- 
+What: JavaScript language construct to store data as key–value pairs.
+const user = { 
+ 					name: "Akash",          // Key as string is optional 
+					age: 25 
+			 };
+
+HashMap --
+Stores data same as JSON but in "key" → "value" way 
+Has methods like get, set
+Very fast lookup (O(1))
+
+					const map = new Map();
+					map.set("name", "Akash");
+					map.get("name"); // fast lookup
+
 ---------------------------------------------------------------------------------------------------------
 
 A CALLBACK is a function passed as an argument to another function
