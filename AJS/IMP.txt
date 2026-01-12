@@ -38,3 +38,100 @@ const [car, truck, suv] = vehicles;
 % 3. Map Function :: 
 =>> One of the most useful in React is the .map() array method.
     The .map() method allows you to **RUN A FUNCTION on each item in the array, returning a NEW ARRAY as the result.
+
+------------------------------------------------------------------------------------------------------------
+
+🔹 Shallow Copy
+
+A shallow copy "COPIES ONLY FIRST LEVEL OF ARRAY OR OBJECT" , NOT next level 
+If the object has nested objects, they still share the same reference AND THEY ARE NOT COPIED
+
+Example
+const original = {
+  name: 'Akash',                   // first level
+  address: { city: 'Delhi' }       // secord level 
+};
+const shallow = { ...original };        // shallow copy
+shallow.address.city = 'Mumbai';
+console.log(original.address.city);     // ❌ Mumbai (changed!)
+
+Because address is not copied, only the reference is. 
+
+🔹 Deep Copy
+
+A deep copy copies all levels, including nested objects.
+No shared references → changes don’t affect the original.
+
+Example
+const original = {
+  name: 'Akash',
+  address: { city: 'Delhi' }
+};
+const deep = JSON.parse(JSON.stringify(original));
+deep.address.city = 'Mumbai';
+
+console.log(original.address.city); // ✅ Delhi (unchanged)
+
+--------------------------------------------------------------------------------------------------------------------
+
+1️⃣ What is a Higher-Order Function (HOF)?
+
+A Higher-Order Function is a function that does at least one of the following:
+@ Takes another function as an argument, or
+@ Returns a function
+
+✅ Examples of Higher-Order Functions
+map()
+filter()
+reduce()
+setTimeout()
+addEventListener()
+
+Because they accept functions (callbacks).
+
+✅ How map() is a Higher-Order Function
+Example
+const numbers = [1, 2, 3];
+const doubled = numbers.map(num => num * 2);
+
+What is happening internally?
+map receives a function
+That function is executed for each element
+num => num * 2   // ← callback
+
+✔ map accepts a function
+✔ Therefore, map is a Higher-Order Function
+
+--------------------------------------------------------------------------------------------------------------------------
+
+1️⃣ Two Important JSON Functions
+
+JavaScript provides two core JSON functions:
+
+🔹 1. JSON.stringify()   👉 Converts a JavaScript object → JSON string
+
+Example  :: 
+const user = { name: "Akash", age: 27 };
+const jsonString = JSON.stringify(user);
+Output   :: 
+'{"name":"Akash","age":27}'
+
+🔹 2. JSON.parse()     👉 Converts a JSON string → JavaScript object
+
+Example  ::
+const obj = JSON.parse(jsonString);
+Output   :: 
+{ name: "Akash", age: 27 }
+
+🔹  3. When JSON methods BECOME Higher-Order Functions 
+
+JSON.stringify (replacer function)  
+JSON.stringify(obj, (key, value) => value); 
+✔ Accepts a function 
+✔ Now it is a Higher-Order Function 
+
+JSON.parse (reviver function) 
+JSON.parse(jsonString, (key, value) => value); 
+✔ Accepts a function 
+✔ Now it is a Higher-Order Function
+
