@@ -45,6 +45,34 @@ for(let y of iterate){
 // }
 // console.log(countthree("abaab"))
 
+-----------------------------------------------------------------------------------------------------------------
+   
+let arr=[11,22,33,44,11,33]
+let map=new Map()
+for(let i=0;i<arr.length;i++){
+    if(map.has(arr[i])){
+        map.set(arr[i],map.get(arr[i])+1)
+    }else{
+        map.set(arr[i],1)
+    }
+}
+console.log(map)                             //  Map(4) { 11 => 2, 22 => 1, 33 => 2, 44 => 1 }
+console.log(map.size)                        //  4
+
+for(const [key,value] of map.entries()){       // way to iterate over map 
+    console.log(key,value)
+    if(value==2){
+        console.log("hello")
+    }
+}
+
+for (const key of map.keys()) {
+  console.log(key);
+}
+
+for (const value of map.values()) {
+  console.log(value);
+}
 
 
 
