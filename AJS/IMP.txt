@@ -135,3 +135,48 @@ JSON.parse(jsonString, (key, value) => value);
 ✔ Accepts a function 
 ✔ Now it is a Higher-Order Function
 
+--------------------------------------------------------------------------------------------------------------------------
+
+🔥 What is React Query (TanStack Query)?
+
+React Query is a server side state-management for React like API data, DB data
+It fetches, caches, syncs, updates, and manages server data
+so you don’t have to do it manually with useEffect + useState.
+
+👉 Redux is NOT good for server data
+👉 React Query is NOT for UI state
+
+" I use React Query for server state.
+👉 useQuery handles fetching, caching, loading, and error states automatically.
+👉 useMutation is used for is used for POST, PUT, DELETE operations.
+After a mutation, I use ( queryClient.invalidateQueries(['users']); )
+👉 invalidateQueries so React Query refetches the updated data.
+This removes the need for manual useEffect and API state handling.”
+
+// main.jsx or index.js
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+const queryClient = new QueryClient();
+root.render(
+  <QueryClientProvider client={queryClient}>
+    <App />
+  </QueryClientProvider>
+);
+
+1. QueryClient is the central cache manager that controls all queries and mutations.
+2. QueryClientProvider injects the QueryClient into React’s context so all components can access cached data
+
+QueryClient
+   ↓
+QueryClientProvider
+   ↓
+useQuery → fetch + cache data
+useMutation → change data
+useQueryClient → refresh cache
+
+“React Query uses QueryClient as a central cache manager.
+QueryClientProvider makes it available to the app.
+useQuery is used to fetch and cache server data.
+useMutation is used to modify data.
+After mutation, we use useQueryClient to invalidate or refetch queries so UI stays in sync.”
+
+-------------------------------------------------------------------------------------------------------------------------------------
