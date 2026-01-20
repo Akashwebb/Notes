@@ -10,6 +10,17 @@ It is implemented under the hood in the JavaScript built-in methods indexOf(), i
 
 4. Linear Search is the best we can do when searching unsorted arrays, such as [4, 2, 3].
 
+
+const linear=(arr,target)=>{
+    for(let i=0;i<arr.length;i++){
+        if(arr[i]===target){
+            console.log(i)
+        }
+    }
+}
+linear([2,7,9,1,5,3] , 5)
+
+
 # BINARY Search :
 
 1. Binary Search can be used to search for values in SORTED arrays only – such as [1, 2, 3, 6, 9]. 
