@@ -1,3 +1,69 @@
+Object.values(user) ::  returns an array of the object’s values (not keys).
+  
+  const user = {
+  name: "Akash",
+  age: 26,
+  role: "Developer"
+};
+console.log(Object.values(user));
+
+✅ Output
+["Akash", 26, "Developer"]
+
+------------------------------------------------------------------------------------------------
+  
+Reduce() — Transform Everything Into One
+👉 Sum
+👉 Object
+👉 Count
+👉 Group
+👉 Max
+👉 Map
+
+const nums = [5, 1, 3, 2];
+
+const sum = nums.reduce((acc, curr) => {
+    console.log(acc,curr)    
+  return acc + curr;
+}, 0);
+console.log(sum);
+
+✅ Output
+0 5
+5 1
+6 3
+9 2
+11
+
+---------------------------------------------------------------
+const people = [
+  { city: "Delhi", name: "A" },
+  { city: "Mumbai", name: "B" },
+  { city: "Delhi", name: "C" }
+];
+
+const grouped = people.reduce((acc, p) => {
+  console.log("aaaaaa" ,acc , p)
+  if (!acc[p.city]) acc[p.city] = [];
+  acc[p.city].push(p);
+  return acc;
+}, {});
+
+console.log(grouped);
+
+✅ Output
+aaaaaa {} { city: 'Delhi', name: 'A' }
+aaaaaa { Delhi: [ { city: 'Delhi', name: 'A' } ] } { city: 'Mumbai', name: 'B' }
+aaaaaa {
+  Delhi: [ { city: 'Delhi', name: 'A' } ],
+  Mumbai: [ { city: 'Mumbai', name: 'B' } ]
+} { city: 'Delhi', name: 'C' }
+{
+  Delhi: [ { city: 'Delhi', name: 'A' }, { city: 'Delhi', name: 'C' } ],
+  Mumbai: [ { city: 'Mumbai', name: 'B' } ]
+}
+-------------------------------------------------------------------------------------------------
+  
 //1.  *at()
 // let arr=[1,2,3,4,5]
 // let x= arr.at(2)
