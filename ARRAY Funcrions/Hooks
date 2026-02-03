@@ -1,0 +1,329 @@
+✅ 1. useState
+👉 Stores local component state.
+
+import React, { useState } from "react";
+function Counter() {
+  const [count, setCount] = useState(0);
+  return (
+    <>
+      <p>{count}</p>
+      <button onClick={() => setCount(count + 1)}>+</button>
+    </>
+  );
+}
+
+🧠 Explanation
+Holds a value.
+setCount updates it.
+Causes re-render.
+
+Use for:
+forms
+toggles
+UI values
+
+
+
+✅ 2. useEffect
+👉 Runs side effects after render.
+
+import React, { useEffect } from "react";
+function Example() {
+  useEffect(() => {
+    console.log("Component mounted");
+
+    return () => {
+      console.log("Cleanup");
+    };
+  }, []);
+
+  return <p>Hello</p>;
+}
+
+🧠 Explanation
+Runs after UI renders.
+Cleanup runs on unmount.
+
+Use for:
+API calls
+timers
+subscriptions
+
+
+
+✅ 3. useContext
+👉 Reads values from Context.
+
+const ThemeContext = React.createContext();
+function Child() {
+  const theme = React.useContext(ThemeContext);
+  return <p>{theme}</p>;
+}
+
+function App() {
+  return (
+    <ThemeContext.Provider value="dark">
+      <Child />
+    </ThemeContext.Provider>
+  );
+}
+
+🧠 Explanation
+Avoids prop drilling.
+Shares global values.
+
+Use for:
+theme
+auth
+settings
+
+
+
+✅ 4. useRef
+👉 Stores mutable value without re-render.
+
+import React, { useRef } from "react";
+function Example() {
+  const countRef = useRef(0);
+  const increment = () => {
+    countRef.current += 1;
+    console.log(countRef.current);
+  };
+  return <button onClick={increment}>Click</button>;
+}
+
+🧠 Explanation
+current stores value.
+Updating does NOT re-render.
+
+Use for:
+DOM/native refs
+timers
+locks
+
+
+
+✅ 5. useMemo
+👉 Memoizes computed values.
+
+import React, { useMemo } from "react";
+function Example({ a, b }) {
+  const sum = useMemo(() => {
+    console.log("Calculating...");
+    return a + b;
+  }, [a, b]);
+
+  return <p>{sum}</p>;
+}
+
+🧠 Explanation
+Caches result.
+Recomputes only when deps change.
+
+Use for:
+heavy calculations
+derived data
+
+
+
+✅ 6. useCallback
+👉 Memoizes functions.
+
+import React, { useCallback, useState } from "react";
+function Example() {
+  const [count, setCount] = useState(0);
+  const increment = useCallback(() => {
+    setCount(c => c + 1);
+  }, []);
+  return <button onClick={increment}>{count}</button>;
+}
+
+🧠 Explanation
+Keeps same function instance.
+Prevents unnecessary re-renders.
+
+Use for:
+passing handlers
+performance
+
+
+✅ 7. useReducer
+👉 Manages complex state.
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "inc":
+      return { count: state.count + 1 };
+    default:
+      return state;
+  }
+}
+function Example() {
+  const [state, dispatch] = React.useReducer(reducer, { count: 0 });
+
+  return (
+    <button onClick={() => dispatch({ type: "inc" })}>
+      {state.count}
+    </button>
+  );
+}
+
+🧠 Explanation
+Redux-like pattern.
+Predictable updates.
+
+Use for:
+large forms
+complex logic
+
+
+
+✅ 8. useLayoutEffect
+👉 Runs before paint.
+
+import React, { useLayoutEffect } from "react";
+function Example() {
+  useLayoutEffect(() => {
+    console.log("Runs before paint");
+  }, []);
+  return <p>Hello</p>;
+}
+
+🧠 Explanation
+Like useEffect but synchronous.
+
+Use for:
+measuring layout
+animations
+
+
+
+✅ 9. useImperativeHandle
+👉 Exposes methods via ref.
+const Input = React.forwardRef((props, ref) => {
+  React.useImperativeHandle(ref, () => ({
+    focus() {
+      console.log("Focused");
+    }
+  }));
+
+  return <input />;
+});
+
+function App() {
+  const ref = React.useRef();
+  return <Input ref={ref} />;
+}
+
+🧠 Explanation
+Lets parent control child.
+Use for:
+focus
+scroll
+reset
+
+
+
+✅ 10. useDebugValue
+👉 Labels custom hooks.
+function useOnline(status) {
+  React.useDebugValue(status ? "Online" : "Offline");
+  return status;
+}
+
+🧠 Explanation
+Shows value in DevTools.
+
+Use for:
+debugging custom hooks.
+
+
+
+✅ 11. useId
+👉 Generates unique IDs.
+function Example() {
+  const id = React.useId();
+  return <label htmlFor={id}>Name</label>;
+}
+
+🧠 Explanation
+Safe for SSR.
+
+Use for:
+accessibility
+forms
+
+
+
+✅ 12. useDeferredValue
+👉 Defers updates.
+function Example({ value }) {
+  const deferred = React.useDeferredValue(value);
+  return <p>{deferred}</p>;
+}
+
+🧠 Explanation
+Keeps UI responsive.
+Use for:
+large lists
+search
+
+
+✅ 13. useTransition
+👉 Marks updates as non-urgent.
+function Example() {
+  const [isPending, startTransition] = React.useTransition();
+  const [count, setCount] = React.useState(0);
+  return (
+    <button onClick={() => {
+      startTransition(() => setCount(c => c + 1));
+    }}>
+      {count}
+    </button>
+  );
+}
+
+🧠 Explanation
+Avoids blocking UI.
+
+Use for:
+heavy renders
+
+
+✅ 14. useSyncExternalStore
+👉 Subscribes to external store.
+const store = {
+  value: 0,
+  subscribe(cb) { return () => {}; },
+  getSnapshot() { return this.value; }
+};
+
+function Example() {
+  const value = React.useSyncExternalStore(
+    store.subscribe,
+    store.getSnapshot
+  );
+
+  return <p>{value}</p>;
+}
+
+🧠 Explanation
+
+For libraries.
+Safe external state.
+
+✅ Rules of Hooks (Important)
+✔ Call hooks at top level
+✔ Call hooks inside React components
+✔ No hooks in loops or conditions
+
+✅ Most Used in Real Apps
+useState
+useEffect
+useRef
+useContext
+useCallback
+useMemo
+
+
+Everything else is advanced.
