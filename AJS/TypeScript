@@ -1,0 +1,124 @@
+1. What is TypeScript?
+
+TypeScript (TS) is a superset of JavaScript created by Microsoft.
+It adds:
+Static typing
+Interfaces
+Generics
+
+⚠️ JavaScript ⚠️
+function add(a, b) {
+  return a + b;
+}
+Problem:
+You can pass anything.
+add("5", 10) // "510"
+
+⚠️ TypeScript ⚠️
+function add(a: number, b: number): number {
+  return a + b;
+}
+Now this will error:
+add("5", 10)
+
+---------------------------------------------------------------------------------------------------------------------------
+
+⚠️ TYPES ⚠️
+
+let name: string = "Akash"                      // string
+let age: number = 25                            // number
+let isLoggedIn: boolean = true                  // boolean
+
+let numbers: number[] = [1,2,3]                 // Array
+let names: string[] = ["Akash", "John"]
+
+
+let data: any = "hello"                         // ANY 
+data = 10
+data = true
+
+
+let user: {                                     // Object
+  name: string
+  age: number
+}
+user = {
+  name: "Akash",
+  age: 25
+}
+
+
+Basic                                             // Functions
+function greet(name: string): string {
+  return "Hello " + name
+}
+
+Arrow Function
+const multiply = (a: number, b: number): number => {
+  return a * b
+}
+
+
+type ButtonProps = {                               // React Props with TypeScript
+  label: string
+}
+
+function Button({ label }: ButtonProps) {
+  return <button>{label}</button>
+}
+
+-------------------------------------------------------------------------------------------------------------------------------
+
+⚠️ React useState with TypeScript ⚠️
+
+String State  :  const [name, setName] = useState<string>("")
+Number State  :  const [count, setCount] = useState<number>(0)
+
+Object        :  type User = {
+                      name: string
+                      age: number
+                      }
+const [user, setUser] = useState<User | null>(null)
+
+
+19. API Calls with TypeScript
+
+Example API response type:
+type User = {
+  id: number
+  name: string
+  email: string
+}
+Fetch :  const [users, setUsers] = useState<User[]>([])
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+Interface
+
+1. Used mainly to describe the structure of objects or classes.
+interface User {
+  name: string
+  age: number
+}
+
+2. interface User {
+  name: string
+}
+
+interface User {
+  age: number
+}
+
+const person: User = {
+  name: "Akash",
+  age: 25
+}
+
+Type
+
+Used to define any kind of type: primitives, unions, tuples, objects, etc.
+
+type User = {
+  name: string
+  age: number
+}
