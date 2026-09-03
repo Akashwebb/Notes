@@ -1,0 +1,78 @@
+PostgreSQL is an advanced, open-source relational database management system (RDBMS) known for its stability, extensibility, and adherence to SQL standards.
+PostgreSQL is an object-relational database management system (ORDBMS) that stores data in columns and rows of a table, which are linked by relationships.
+It also handles advanced data types, including arrays, JavaScript Object Notation (JSON), Extensible Markup Language (XML), and key-value pairs – all in the same database engine.
+Define custom data types, like coordinates, currencies, or version numbers.
+Workload type: If you anticipate a read-heavy workload, MySQL will perform better. If it’s a write-heavy workload, go for PostgreSQL.
+Thanks to MVCC - multi-version concurrency control -- allow multiple user to write at once
+
+Think of it like a computer and its operating system: the RDBMS is the software system (the engine) that stores and organizes data,
+while SQL is the programming language (the controls) you use to talk to that system.
+
+Tables: Data is saved in a grid format with rows (records) and columns (attributes).
+Keys: Tables connect to each other using primary keys (unique identifiers for a row) and foreign keys (links to a primary key in another table).
+SQL: Most systems use Structured Query Language to search, add, or change data.
+ACID Properties: Transactions follow rules for Atomicity, Consistency, Isolation, and Durability to keep data correct and safe.
+
+Terraform variables are placeholders used to parameterize infrastructure configurations. 
+Instead of hardcoding values like IP addresses, regions, or instance sizes directly into your scripts, 
+you use variables to make your code dynamic, reusable, and portable across different environments (such as development, staging, and production).
+
+1. What is a relational database?
+A relational database stores structured data in tables and connects tables using relationships, usually through primary and foreign keys.
+
+2. What is a primary key?
+A primary key uniquely identifies one row.
+Example: User.id
+
+In Prisma we write in this way : id String @id
+
+3. What is a foreign key?
+A foreign key points to a row in another table.
+
+4. What is a unique constraint?
+A unique constraint prevents duplicate values.
+modelNumber String @unique
+
+5. What is normalization?
+Normalization means separating data into related tables to reduce duplication.
+
+For example, instead of storing the author name repeatedly in every model, the application stores: Model.authorId
+and retrieves the user from the User table.
+
+6. What is denormalization?
+Denormalization intentionally duplicates or derives data to improve read performance.
+
+This project has:
+Model.applianceName
+Model.manufacturer
+
+7. What is a transaction?
+A transaction groups multiple operations into one atomic unit.
+
+The basic guarantee is:
+All operations succeed   OR   all operations are rolled back
+This is important when creating or updating several related records.
+
+8. What does ACID mean?
+ACID describes reliable transaction behavior:
+
+Atomicity: all operations succeed or none do.
+Consistency: database rules remain valid.
+Isolation: concurrent transactions do not incorrectly interfere.
+Durability: committed data survives a failure.
+
+9. ORM means Object-Relational Mapping.
+
+Prisma is the ORM in this project. It maps:
+TypeScript model -> PostgreSQL table
+TypeScript method -> SQL query
+
+10. How are database passwords protected?
+Locally, the password is in the developer's .env file.
+
+# In Azure : 
+Terraform creates the secret in Key Vault
+App Service uses its managed identity
+App Service resolves DATABASE_URL at runtime
+
+
