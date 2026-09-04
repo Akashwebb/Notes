@@ -76,3 +76,26 @@ App Service uses its managed identity
 App Service resolves DATABASE_URL at runtime
 
 
+## Why Key Vault Is Used
+The production database password should not be stored in:
+
+Git
+TypeScript files
+Terraform source as plain text
+Docker images
+Frontend environment variables
+Browser code
+
+Instead:
+Terraform creates the database URL secret in Key Vault
+       |
+Azure App Service managed identity accesses Key Vault
+       |
+App Service resolves DATABASE_URL at runtime
+       |
+Node.js reads process.env.DATABASE_URL
+
+The Node.js code remains the same in local and production environments. Only DATABASE_URL changes.
+
+
+
