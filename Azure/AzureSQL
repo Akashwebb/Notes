@@ -1,0 +1,991 @@
+# Database, Docker, and Azure Deployment Guide
+
+This guide explains how the xSol Design Tool connects Node.js to PostgreSQL, where the database runs in development and Azure, how Docker is used, and how to create a similar application named `akash_app`.
+
+The guide has two purposes:
+
+1. Explain the existing xSol Design Tool architecture.
+2. Provide a simple step-by-step blueprint for a new Node.js application.
+
+## 1. The Architecture In One Picture
+
+The frontend does not connect directly to PostgreSQL.
+
+```text
+Browser / React frontend
+          |
+          | HTTP or HTTPS API request
+          v
+Node.js + Express backend
+          |
+          | PrismaClient
+          v
+PostgreSQL database
+```
+
+For the current project:
+
+```text
+Local development:
+React -> Express API -> Prisma -> PostgreSQL in Docker
+
+Azure deployment:
+Browser -> Azure App Service container -> Prisma -> Azure PostgreSQL Flexible Server
+```
+
+Supporting Azure services are:
+
+```text
+Azure Container Registry (ACR) -> stores Docker images
+Azure App Service              -> runs the backend Docker container
+Azure Key Vault                -> stores the production DATABASE_URL
+Azure PostgreSQL               -> stores application data
+```
+
+## 2. What PostgreSQL Is
+
+PostgreSQL, or Postgres, is an open-source relational database management system.
+
+It stores structured data in tables containing rows and columns. It supports:
+
+- Primary keys
+- Foreign keys and relationships
+- Unique constraints
+- Indexes
+- Transactions
+- Strong data types
+- SQL queries
+- Database users and permissions
+- JSONB data for flexible structured content
+
+The current project uses tables such as `User`, `Model`, `Node`, `ModelNode`, `Replacement`, `Collection`, and `Asset`.
+
+Some important relationships are:
+
+```text
+Model.authorId -> User.id
+Node.authorId  -> User.id
+Asset.authorId -> User.id
+ModelNode      -> Model and Node
+```
+
+PostgreSQL is a good fit because this application has structured data, relationships, uniqueness rules, transactions, and searchable fields. It also supports `JSONB`, which the project uses for flexible node content such as setup steps, components, instructions, and alerts.
+
+## 3. What Docker Is
+
+Docker packages an application and its dependencies into an isolated unit called a container.
+
+```text
+Docker image     = packaged application template
+Docker container  = running instance of an image
+```
+
+A Node.js Docker image can contain:
+
+- A Node.js runtime
+- Application source code
+- Installed npm/Yarn packages
+- Prisma
+- The command used to start the server
+
+Docker gives local development and Azure a consistent way to run the backend.
+
+Docker runs locally through Docker Desktop. On a Mac, install and start Docker Desktop, then verify it with:
+
+```bash
+docker --version
+docker ps
+```
+
+Azure does not require Docker Desktop. Azure services run the Docker image for you.
+
+## 4. Where PostgreSQL Runs Locally
+
+The existing local PostgreSQL setup is in [server/docker-compose.yml](../server/docker-compose.yml).
+
+```yaml
+postgres:
+  image: postgres:16-alpine
+  container_name: xsol-design-postgres
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_DB: design_tool
+  ports:
+    - "5432:5432"
+  volumes:
+    - xsol-design-pgdata:/var/lib/postgresql/data
+```
+
+This means PostgreSQL runs in a Docker container on the developer's computer:
+
+```text
+Host:     localhost
+Port:     5432
+Database: design_tool
+User:     postgres
+Password: postgres
+```
+
+The Docker volume stores the database files outside the temporary container layer, so data survives container restarts.
+
+Start local PostgreSQL:
+
+```bash
+cd server
+yarn db:up
+```
+
+This runs:
+
+```bash
+docker compose up -d postgres
+```
+
+Stop it:
+
+```bash
+yarn db:down
+```
+
+Check it:
+
+```bash
+docker ps
+```
+
+Do not use `docker compose down -v` unless you intentionally want to delete the local database volume and its data.
+
+## 5. The Local DATABASE_URL
+
+The local connection string is in `server/.env` and documented in [server/.env.example](../server/.env.example):
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/design_tool?schema=public"
+```
+
+The format is:
+
+```text
+postgresql://USERNAME:PASSWORD@HOST:PORT/DATABASE?OPTIONS
+```
+
+For the current project:
+
+```text
+postgresql://
+postgres                 username
+:postgres                password
+@localhost               host
+:5432                    port
+/design_tool             database
+?schema=public           schema option
+```
+
+If Node.js runs directly on the Mac, use `localhost`.
+
+If Node.js runs inside Docker Compose, use the PostgreSQL service name instead:
+
+```text
+postgresql://postgres:postgres@postgres:5432/design_tool?schema=public
+```
+
+Inside a container, `localhost` means that same container. The hostname `postgres` means the PostgreSQL service container.
+
+## 6. How Node.js Connects To PostgreSQL
+
+The connection is configured in [server/prisma/schema.prisma](../server/prisma/schema.prisma):
+
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+```
+
+The backend entry point loads environment variables in [server/src/index.ts](../server/src/index.ts):
+
+```ts
+import "dotenv/config";
+```
+
+The Prisma client is created in [server/src/db.ts](../server/src/db.ts):
+
+```ts
+import { PrismaClient } from '@prisma/client';
+
+export const prisma = new PrismaClient();
+```
+
+The actual project also reuses the client during development to avoid creating too many database connections when the server reloads.
+
+Routes use the shared client:
+
+```ts
+const models = await prisma.model.findMany();
+
+const created = await prisma.model.create({
+  data: {
+    modelNumber: "GC001",
+    applianceName: "Example model",
+    authorId: "user-id",
+  },
+});
+```
+
+The process is:
+
+```text
+1. Node.js starts.
+2. dotenv loads local environment variables, if running locally.
+3. Prisma reads DATABASE_URL.
+4. PrismaClient creates and manages database connections.
+5. An Express route calls a Prisma method.
+6. Prisma converts the method into SQL.
+7. PostgreSQL executes the SQL.
+8. Prisma maps the result back to a TypeScript object.
+9. Express returns JSON to the frontend.
+```
+
+Conceptually:
+
+```ts
+prisma.model.findMany({
+  where: { deletedAt: null },
+});
+```
+
+becomes similar to:
+
+```sql
+SELECT *
+FROM "Model"
+WHERE "deletedAt" IS NULL;
+```
+
+The frontend only calls the API. It never receives the database password and never connects directly to PostgreSQL.
+
+## 7. Prisma Schema And Migrations
+
+The Prisma schema describes the current application data model:
+
+```prisma
+model Model {
+  id        String   @id @default(cuid())
+  modelNumber String @unique
+  updatedAt DateTime @updatedAt
+}
+```
+
+Migration files contain the SQL history needed to create or change the real database.
+
+For example, the `purgedAt` migration adds a column and index:
+
+```sql
+ALTER TABLE "Model"
+ADD COLUMN "purgedAt" TIMESTAMP(3);
+
+CREATE INDEX "Model_purgedAt_idx"
+ON "Model"("purgedAt");
+```
+
+Useful local commands:
+
+```bash
+cd server
+
+yarn db:migrate       # create/apply development migrations
+yarn prisma generate  # generate Prisma Client
+yarn prisma migrate status
+
+yarn db:studio       # open graphical database browser
+```
+
+Prisma Studio normally opens at:
+
+```text
+http://localhost:5555
+```
+
+For deployment, the project runs:
+
+```bash
+yarn migrate:deploy
+```
+
+`migrate deploy` applies migrations that already exist in the repository. It is intended for CI/CD and production environments.
+
+## 8. How To Inspect The Local Database
+
+Start PostgreSQL:
+
+```bash
+cd server
+yarn db:up
+```
+
+Apply migrations:
+
+```bash
+yarn db:migrate
+```
+
+Open the visual database browser:
+
+```bash
+yarn db:studio
+```
+
+Alternatively, use `psql`:
+
+```bash
+psql "postgresql://postgres:postgres@localhost:5432/design_tool"
+```
+
+Useful PostgreSQL commands:
+
+```sql
+\dt
+```
+
+Lists tables.
+
+```sql
+\d "Model"
+```
+
+Describes the `Model` table.
+
+```sql
+SELECT * FROM "Model";
+```
+
+Reads model rows.
+
+```sql
+SELECT * FROM "_prisma_migrations";
+```
+
+Shows Prisma migration history.
+
+## 9. Is PostgreSQL In Azure?
+
+Yes. Deployed environments use **Azure Database for PostgreSQL Flexible Server**.
+
+The current repository does not create the PostgreSQL server. It finds an existing shared server in [infrastructure/postgresql.tf](../infrastructure/postgresql.tf):
+
+```hcl
+data "azurerm_postgresql_flexible_server" "shared" {
+  name                = var.existing_postgresql_server_name
+  resource_group_name = data.azurerm_resource_group.main.name
+}
+```
+
+The Terraform `data` block means "look up an existing resource".
+
+This project then creates its own database inside that server:
+
+```hcl
+resource "azurerm_postgresql_flexible_server_database" "xsol_design_tool" {
+  name      = "xsol_design_tool"
+  server_id = data.azurerm_postgresql_flexible_server.shared.id
+}
+```
+
+The Azure structure is:
+
+```text
+Azure subscription
+  └── Resource group
+        └── Shared PostgreSQL Flexible Server
+              └── Database: xsol_design_tool
+                    └── Schema: public
+                          └── application tables
+```
+
+A PostgreSQL server and a PostgreSQL database are different:
+
+```text
+Server   = managed Azure PostgreSQL resource with hostname, compute, storage, and networking
+Database = logical database inside that server
+Schema   = namespace inside the database, normally public
+```
+
+The current project has separate environments such as `devtest`, `pre-production`, and `production`. The server name is supplied per environment.
+
+## 10. Where DATABASE_URL Is In Azure
+
+The production `DATABASE_URL` has two related locations.
+
+### App Service application setting
+
+In the Azure Portal:
+
+```text
+Resource group
+  -> App Service
+      -> Settings
+          -> Environment variables / Configuration
+              -> Application settings
+                  -> DATABASE_URL
+```
+
+In this project, the value shown there is a Key Vault reference similar to:
+
+```text
+@Microsoft.KeyVault(VaultName=...;SecretName=database-url-app)
+```
+
+It is not the actual password-bearing URL.
+
+### Key Vault secret
+
+The actual secret is stored at:
+
+```text
+Key Vault
+  -> Secrets
+      -> database-url-app
+```
+
+The current infrastructure creates it in [infrastructure/keyvault.tf](../infrastructure/keyvault.tf).
+
+Conceptually, the real value is:
+
+```text
+postgresql://xsol_design_tool_app:<password>@<server-fqdn>:5432/xsol_design_tool?sslmode=require
+```
+
+The Azure App Service has a system-assigned managed identity. That identity is permitted to read the Key Vault secret. Azure resolves the reference and exposes the result to the Node.js process as:
+
+```ts
+process.env.DATABASE_URL
+```
+
+The Node.js code is therefore the same locally and in Azure. Only the environment value changes.
+
+Never paste a real production `DATABASE_URL` into source code, chat, screenshots, or a frontend environment file.
+
+## 11. Azure Database Roles
+
+The project separates normal application permissions from migration permissions.
+
+### Runtime application role
+
+```text
+xsol_design_tool_app
+```
+
+Used by the running API. It needs normal data permissions:
+
+```text
+SELECT
+INSERT
+UPDATE
+DELETE
+```
+
+These are DML permissions: Data Manipulation Language.
+
+### Migration role
+
+```text
+xsol_design_tool_migrator
+```
+
+Used by deployment migrations. It needs schema permissions such as:
+
+```text
+CREATE TABLE
+ALTER TABLE
+CREATE INDEX
+CREATE TYPE
+```
+
+These are DDL permissions: Data Definition Language.
+
+This follows least privilege. The running API should not automatically have permission to modify or drop the database schema.
+
+## 12. How The Existing Docker Backend Works
+
+The current backend Dockerfile is [server/Dockerfile](../server/Dockerfile):
+
+```dockerfile
+FROM node:20-alpine
+
+WORKDIR /app/server
+
+RUN corepack enable
+
+COPY server/package.json ./
+COPY server/yarn.lock ./
+COPY server/.yarnrc.yml ./
+COPY server/prisma ./prisma
+
+RUN yarn install --immutable
+
+COPY server/src ./src
+COPY server/tsconfig.json ./
+
+EXPOSE 4000
+CMD ["yarn", "tsx", "--import", "./src/telemetry.ts", "src/index.ts"]
+```
+
+It does the following:
+
+```text
+1. Starts from a Node.js 20 Alpine image.
+2. Creates the application working directory.
+3. Enables Corepack for the pinned Yarn version.
+4. Copies package and Prisma files.
+5. Installs dependencies.
+6. Copies the server source code.
+7. Documents that the app listens on port 4000.
+8. Starts the Express server.
+```
+
+The Docker Compose API service connects to PostgreSQL using the service hostname:
+
+```yaml
+DATABASE_URL: postgresql://postgres:postgres@postgres:5432/design_tool?schema=public
+```
+
+## 13. New Application Blueprint: `akash_app`
+
+The following steps create a similar Node.js, PostgreSQL, Docker, and Azure setup.
+
+### Step 1: Create the backend
+
+Create a Node.js backend with Express and Prisma:
+
+```bash
+mkdir akash_app
+cd akash_app
+mkdir server
+cd server
+
+yarn init
+yarn add express dotenv @prisma/client
+yarn add --dev prisma typescript tsx @types/express @types/node
+
+yarn prisma init
+```
+
+A simple structure is:
+
+```text
+akash_app/
+  └── server/
+        ├── src/
+        │     ├── index.ts
+        │     └── db.ts
+        ├── prisma/
+        │     └── schema.prisma
+        ├── Dockerfile
+        ├── docker-compose.yml
+        ├── .env
+        └── package.json
+```
+
+### Step 2: Define the Prisma schema
+
+Example `prisma/schema.prisma`:
+
+```prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+### Step 3: Create the local Docker Compose file
+
+Use this as a starting point for `akash_app`:
+
+```yaml
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: akash-app-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: akash_app
+    ports:
+      - "5432:5432"
+    volumes:
+      - akash-app-pgdata:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: akash-app-api
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/akash_app?schema=public
+      API_PORT: 4000
+
+volumes:
+  akash-app-pgdata:
+```
+
+The two containers are:
+
+```text
+akash-app-postgres -> PostgreSQL
+akash-app-api      -> Node.js backend
+```
+
+### Step 4: Create a local environment file
+
+If Node.js runs directly on the Mac:
+
+```env
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/akash_app?schema=public"
+API_PORT=4000
+NODE_ENV=development
+```
+
+If Node.js runs inside Docker Compose, the service-level value should use:
+
+```text
+postgresql://postgres:postgres@postgres:5432/akash_app?schema=public
+```
+
+Do not commit `.env` files containing real secrets.
+
+### Step 5: Start local PostgreSQL and create tables
+
+```bash
+cd akash_app/server
+docker compose up -d postgres
+yarn prisma migrate dev --name init
+yarn prisma generate
+```
+
+Inspect the database:
+
+```bash
+yarn prisma studio
+```
+
+Run the complete application through Docker:
+
+```bash
+docker compose up --build
+```
+
+### Step 6: Create Azure infrastructure
+
+Choose between two PostgreSQL approaches.
+
+#### Shared PostgreSQL server
+
+Use an existing server and create a separate database named `akash_app` inside it. This is similar to the current xSol project and can reduce cost.
+
+```text
+Shared PostgreSQL Flexible Server
+  ├── xsol_design_tool
+  └── akash_app
+```
+
+#### Dedicated PostgreSQL server
+
+Create a new Azure Database for PostgreSQL Flexible Server for `akash_app`, then create the `akash_app` database inside it. This gives stronger isolation but costs more.
+
+In either case, the Azure database is not inside the Docker image. Docker runs the backend; PostgreSQL is a separate service.
+
+### Step 7: Create database roles
+
+Create separate users:
+
+```text
+akash_app_app       -> runtime application data access
+akash_app_migrator  -> schema migration access
+```
+
+A production connection string will look like:
+
+```text
+postgresql://akash_app_app:<password>@<azure-server-fqdn>:5432/akash_app?sslmode=require
+```
+
+The database password must be generated and stored securely. Do not use the local password `postgres` in Azure.
+
+### Step 8: Store DATABASE_URL in Key Vault
+
+Create an Azure Key Vault secret:
+
+```text
+Secret name: database-url-app
+Secret value: postgresql://akash_app_app:<password>@<server-fqdn>:5432/akash_app?sslmode=require
+```
+
+Create a second secret for migrations if needed:
+
+```text
+Secret name: database-url-migrator
+```
+
+Give the App Service managed identity permission to read `database-url-app`.
+
+### Step 9: Create Azure Container Registry
+
+ACR stores private Docker images.
+
+```bash
+az acr create \
+  --resource-group <resource-group> \
+  --name acrakashappdev \
+  --sku Basic
+```
+
+Log in:
+
+```bash
+az acr login --name acrakashappdev
+```
+
+### Step 10: Build and push the Docker image
+
+From the directory containing the Dockerfile:
+
+```bash
+docker build -t acrakashappdev.azurecr.io/akash-app-backend:1.0.0 .
+
+docker push acrakashappdev.azurecr.io/akash-app-backend:1.0.0
+```
+
+The image is now stored in ACR:
+
+```text
+acrakashappdev.azurecr.io/akash-app-backend:1.0.0
+```
+
+### Step 11: Create and configure Azure App Service
+
+Create a Linux App Service configured for the Docker image in ACR.
+
+Configure these application settings:
+
+```text
+WEBSITES_PORT=4000
+NODE_ENV=production
+DATABASE_URL=@Microsoft.KeyVault(VaultName=...;SecretName=database-url-app)
+```
+
+The backend container must listen on port `4000` and on all interfaces, not only `localhost`.
+
+The existing project uses:
+
+```hcl
+WEBSITES_PORT = "4000"
+```
+
+and the Dockerfile contains:
+
+```dockerfile
+EXPOSE 4000
+```
+
+Configure App Service to pull the image from ACR using managed identity rather than storing a registry password when possible.
+
+### Step 12: Run production migrations
+
+Run migrations separately from the normal runtime application:
+
+```bash
+yarn prisma migrate deploy
+```
+
+Use the `akash_app_migrator` connection string for this command.
+
+A deployment pipeline normally does this:
+
+```text
+Build and test
+  -> Build Docker image
+  -> Push image to ACR
+  -> Run Prisma migrations with migrator credentials
+  -> Point App Service at the new image
+  -> Start the backend container
+```
+
+### Step 13: Verify the deployment
+
+Check:
+
+```text
+1. The Docker image exists in ACR.
+2. App Service is running the expected image tag.
+3. DATABASE_URL is present as an App Service setting.
+4. The Key Vault reference is resolved successfully.
+5. The App Service identity can read the Key Vault secret.
+6. PostgreSQL networking permits App Service to connect.
+7. Prisma migrations are applied.
+8. The application health endpoint returns HTTP 200.
+9. App Service container logs show a successful server start.
+```
+
+A typical health endpoint is:
+
+```text
+https://<app-service-host>/api/health
+```
+
+## 14. Complete Local And Azure Flows
+
+### Local flow when both services run in Docker
+
+```text
+Docker Compose
+  ├── akash-app-api
+  │     DATABASE_URL=postgresql://...@postgres:5432/akash_app
+  │
+  └── akash-app-postgres
+        database=akash_app
+```
+
+The API reaches PostgreSQL over the Docker network using the hostname `postgres`.
+
+### Azure flow
+
+```text
+Developer or GitHub Actions
+        |
+        | docker build and docker push
+        v
+Azure Container Registry
+        |
+        | App Service pulls image
+        v
+Azure App Service
+        |
+        | reads DATABASE_URL through Key Vault reference
+        v
+Azure Key Vault
+        |
+        | actual connection string
+        v
+Azure PostgreSQL Flexible Server
+        |
+        v
+Database: akash_app
+```
+
+## 15. Local Versus Azure Values
+
+| Setting | Local | Azure |
+|---|---|---|
+| Backend runtime | Node.js directly or Docker | App Service Docker container |
+| PostgreSQL | Docker PostgreSQL container | Azure Database for PostgreSQL Flexible Server |
+| Host | `localhost` for host-run API, `postgres` for Docker API | Azure PostgreSQL FQDN |
+| Port | `5432` | `5432` |
+| Database | `design_tool` or `akash_app` | `xsol_design_tool` or `akash_app` |
+| SSL | Usually not required locally | `sslmode=require` |
+| Secret location | Local `.env` | Key Vault secret referenced by App Service |
+| Image storage | Local Docker images | Azure Container Registry |
+| Backend hosting | Local Docker engine | Azure App Service |
+| Schema migration | `prisma migrate dev` | `prisma migrate deploy` |
+
+## 16. Common Problems And Checks
+
+### `localhost` does not work from the API container
+
+Use the Compose service name:
+
+```text
+@postgres:5432
+```
+
+not:
+
+```text
+@localhost:5432
+```
+
+### Prisma says `DATABASE_URL` is missing
+
+Check:
+
+```bash
+printenv DATABASE_URL
+```
+
+For local development, check `server/.env`.
+
+For Azure, check App Service environment variables and the Key Vault reference status.
+
+### App Service starts but cannot connect to PostgreSQL
+
+Check:
+
+- Hostname
+- Database name
+- Username
+- Password
+- `sslmode=require`
+- Private networking and DNS
+- Firewall or private endpoint rules
+- Key Vault permissions
+- PostgreSQL role permissions
+
+### Tables do not exist
+
+Check migration status:
+
+```bash
+yarn prisma migrate status
+```
+
+Run local migrations with:
+
+```bash
+yarn prisma migrate dev
+```
+
+Run deployed migrations with:
+
+```bash
+yarn prisma migrate deploy
+```
+
+### Azure database cannot be opened from a laptop
+
+The database may be behind a private endpoint. You may need corporate VPN, Azure Bastion, a jump host, or a VM inside the Azure virtual network. Run `psql`, DBeaver, or Prisma Studio from an approved network location.
+
+## 17. Short Interview Explanation
+
+> The Node.js Express API connects to PostgreSQL through Prisma. Prisma reads the `DATABASE_URL` environment variable and creates a shared PrismaClient. Locally, PostgreSQL runs in a Docker container and the API connects to it using either `localhost` when the API runs on the host or the Docker service name when the API also runs in Docker. In Azure, the backend Docker image is stored in Azure Container Registry and run by Azure App Service. The production `DATABASE_URL` is stored in Azure Key Vault and exposed to App Service through a managed identity. App Service supplies the resolved value to Node.js, Prisma converts route operations into SQL, and Azure PostgreSQL stores the data. Prisma migration files define database changes, with `migrate dev` used locally and `migrate deploy` used during deployment. Separate application and migration database roles follow least privilege.
+
+## 18. The Most Important Rules
+
+1. The frontend must never connect directly to PostgreSQL.
+2. Node.js connects through Prisma using `DATABASE_URL`.
+3. Use `localhost` only when the API runs on the host machine.
+4. Use the Docker service name when the API runs inside Docker.
+5. Docker runs the backend; it does not contain the production Azure database.
+6. Azure PostgreSQL Flexible Server is a managed PostgreSQL service.
+7. Azure Container Registry stores Docker images.
+8. Azure App Service runs Docker images.
+9. Azure Key Vault stores production database secrets.
+10. Use SSL for Azure PostgreSQL connections.
+11. Keep runtime and migration database users separate.
+12. Never commit production passwords or real connection strings.
